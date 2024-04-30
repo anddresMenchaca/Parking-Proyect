@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -80,7 +81,7 @@ class _MapClientState extends State<MapClient> {
                 horaApertura: data['horaApertura'],
                 horaCierre: data['horaCierre'],
                 idDuenio: data['idDuenio'],
-                puntaje: data['puntaje'],
+                puntaje: data['puntaje'].toDouble(),
                 diasApertura: data['diasApertura'],);
           }).toList();
 

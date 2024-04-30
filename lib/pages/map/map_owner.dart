@@ -60,7 +60,7 @@ class _MapOwnerState extends State<MapOwner> {
                 horaApertura: data['horaApertura'],
                 horaCierre: data['horaCierre'],
                 idDuenio: data['idDuenio'],
-                puntaje: data['puntaje'],
+                puntaje: data['puntaje'].toDouble(),
                 diasApertura: data['diasApertura'],);
           }).toList();
 

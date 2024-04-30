@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parking_project/pages/admin/accounts_request.dart';
 import 'package:parking_project/pages/client/home_client_page.dart';
 import 'package:parking_project/pages/client/navigation_bar.dart';
 import 'package:parking_project/pages/login/login_screen.dart';
@@ -32,7 +33,10 @@ class AppRouter {
         );
 
 
-
+      case Routes.homeScreenAdmin:
+        return MaterialPageRoute(
+          builder: (_) => const AccountRequestScreen(),
+        );
       case Routes.homeScreenClient:
         return MaterialPageRoute(
           builder: (_) => const HomeClient(),

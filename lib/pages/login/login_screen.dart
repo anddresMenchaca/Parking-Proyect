@@ -266,25 +266,10 @@ class LoginPage extends StatelessWidget {
                                   if (!context.mounted) return;
                                   // ignore: use_build_context_synchronously
                                   ProgressDialog.hide(context);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                  
+                                  context.pushNamedAndRemoveUntil(
+                                    Routes.homeScreenAdmin,
+                                    predicate: (route) => false,
+                                  );
                                   // Navigator.push(
                                   //   context,
                                   //   MaterialPageRoute(

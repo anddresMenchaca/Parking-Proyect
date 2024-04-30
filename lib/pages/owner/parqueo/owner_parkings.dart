@@ -63,7 +63,7 @@ class PlazaListScreenState extends State<PlazaListScreen> {
                 horaApertura: data['horaApertura'],
                 horaCierre: data['horaCierre'],
                 idDuenio: data['idDuenio'],
-                puntaje: data['puntaje'],
+                puntaje: data['puntaje'].toDouble(),
                 diasApertura: data['diasApertura'],);
           }).toList();
           return ListView.builder(

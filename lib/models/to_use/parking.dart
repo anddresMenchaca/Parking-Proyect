@@ -25,11 +25,11 @@ class Parqueo {
   Map<String, dynamic> tarifaMoto; // DOUBLE
   Map<String, dynamic> tarifaAutomovil; // DOUBLE
   Map<String, dynamic> tarifaOtro; // DOUBLE
-  Map<String, dynamic> diasApertura; // DOUBLE
+  List<dynamic> diasApertura; // DOUBLE
   Timestamp horaApertura;
   Timestamp horaCierre;
   final String idDuenio;
-  Double puntaje;
+  double puntaje;
   List<Plaza> plaza;
 
   Parqueo({
