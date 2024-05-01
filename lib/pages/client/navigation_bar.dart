@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:parking_project/main.dart';
+import 'package:parking_project/pages/client/Vehicle/home_page.dart';
 import 'package:parking_project/pages/client/home_client_page.dart';
 import 'package:parking_project/pages/profile.dart';
 
@@ -18,7 +20,7 @@ class _MenuClientState extends State<MenuClient> {
     const HomeClient(),
     //const TicketsList(),
     const Text('ssssssssss'),
-    const Text('Notificaciones de reserva'),
+    const VehicleScreen(),
     //const ProfilePage(),
     const ProfilePage(),
   ];
@@ -35,9 +37,9 @@ class _MenuClientState extends State<MenuClient> {
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.calendar_today_rounded), label: 'Tickets'),
+                  icon: Icon(Icons.calendar_today_rounded), label: 'Reservas Activas'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.notifications), label: 'Notificaciones'),
+                  icon: Icon(Icons.notifications), label: 'Vehiculos'),
               BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil')
             ]),
       );

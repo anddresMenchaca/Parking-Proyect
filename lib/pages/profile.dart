@@ -23,7 +23,7 @@ class ProfilePage extends StatelessWidget {
             if (snapshot.hasData) {
               final data = snapshot.data!.data() as Map<String, dynamic>;
               final name = data['nombre'];
-              final lasname = data['apellido'];
+              final lasname = data['apellido']? data['apellido'] : '';
               final email = data['correo'];
 
               return Scaffold(
