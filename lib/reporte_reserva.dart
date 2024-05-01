@@ -1,59 +1,108 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 
-class ReservaReport extends StatelessWidget {
+class ReportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reporte de Reserva'),
+        title: Text('Reporte'),
       ),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('reserva').snapshots(),
+      body: FutureBuilder(
+        future: FirebaseFirestore.instance.collection('reserva').get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
 
-          List<DocumentSnapshot> reservas = snapshot.data!.docs;
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Error al cargar los datos'),
+            );
+          }
 
-          return ListView.builder(
-            itemCount: reservas.length,
-            itemBuilder: (context, index) {
-              DocumentSnapshot reserva = reservas[index];
-              
-              Timestamp fechaLlegada = reserva['fechaLlegada'];
-              Timestamp fechaSalida = reserva['fechaSalida'];
-              String idCliente = reserva['cliente'];
-              Map<String, dynamic> parqueo = reserva['parqueo'];
-              String idPlaza = parqueo['idPlaza'];
-              String idParqueo = parqueo['idparqueo'];
-              int total = reserva['total'];
-              String idVehiculo = reserva['vehiculo'];
+          final reservas = snapshot.data!.docs;
 
-              String formattedHoraLlegada = DateFormat('hh:mm a').format(fechaLlegada.toDate());
-              String formattedHoraSalida = DateFormat('hh:mm a').format(fechaSalida.toDate());
-              String formattedFechaLlegada = DateFormat('dd/MM/yyyy').format(fechaLlegada.toDate());
-              String formattedFechaSalida = DateFormat('dd/MM/yyyy').format(fechaSalida.toDate());
+          // Cálculo de la duración promedio de reserva
+          final duraciones = reservas.map((reserva) {
+            final fechaLlegada = reserva['fechaLlegada']?.toDate();
+            final fechaSalida = reserva['fechaSalida']?.toDate();
+            if (fechaLlegada != null && fechaSalida != null) {
+              return fechaSalida.difference(fechaLlegada).inHours;
+            } else {
+              return 0;
+            }
+          }).toList();
 
+          final duracionPromedio = duraciones.isEmpty
+              ? 0
+              : duraciones.reduce((a, b) => a + b) / duraciones.length;
 
-              return ListTile(
-                title: Text('Cliente: $idCliente'),
+          // Cálculo del total gastado por cliente
+          final totalPorCliente = Map<String, double>();
+
+          reservas.forEach((reserva) {
+            final cliente = reserva['cliente']['nombre'];
+            final totalReserva = reserva['total'] ?? 0;
+            totalPorCliente[cliente] = (totalPorCliente[cliente] ?? 0) + totalReserva;
+          });
+
+          // Cálculo del promedio de precios
+          final precios = totalPorCliente.values.toList();
+
+          final precioPromedio = precios.isEmpty
+              ? 0
+              : precios.reduce((a, b) => a + b) / precios.length;
+
+          // Cálculo del top cliente con más reservas
+          final clientesReservas = Map<String, int>();
+
+          reservas.forEach((reserva) {
+            final cliente = reserva['cliente']['nombre'];
+            clientesReservas[cliente] =
+                (clientesReservas[cliente] ?? 0) + 1;
+          });
+
+          final topCliente = clientesReservas.entries.reduce((a, b) {
+            return a.value > b.value ? a : b;
+          });
+
+          // Cálculo del top parqueos con más reservas
+          final parqueosReservas = Map<String, int>();
+
+          reservas.forEach((reserva) {
+            final parqueo = reserva['parqueo']['nombre'];
+            parqueosReservas[parqueo] =
+                (parqueosReservas[parqueo] ?? 0) + 1;
+          });
+
+          final topParqueos = parqueosReservas.entries.toList()
+            ..sort((a, b) => b.value.compareTo(a.value));
+
+          return ListView(
+            children: [
+              ListTile(
+                title: Text('Duración promedio de reserva: $duracionPromedio horas'),
+              ),
+              ListTile(
+                title: Text('Promedio de precios: $precioPromedio'),
+              ),
+              ListTile(
+                title: Text('Top Cliente con más reservas: ${topCliente.key}'),
+                subtitle: Text('Cantidad de reservas: ${topCliente.value}'),
+              ),
+              ListTile(
+                title: Text('Top Parqueos con más reservas:'),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Horario: desde $formattedHoraLlegada hasta $formattedHoraSalida, el día $formattedFechaLlegada hasta el día $formattedFechaSalida'),
-                    Text('ID Plaza: $idPlaza'),
-                    Text('ID Parqueo: $idParqueo'),
-                    Text('Total: $total'),
-                    Text('ID Vehiculo: $idVehiculo'),
-                  ],
+                  children: topParqueos.map((entry) {
+                    return Text('${entry.key}: ${entry.value} reservas');
+                  }).toList(),
                 ),
-              );
-            },
+              ),
+            ],
           );
         },
       ),
@@ -63,6 +112,6 @@ class ReservaReport extends StatelessWidget {
 
 void main() {
   runApp(MaterialApp(
-    home: ReservaReport(),
+    home: ReportScreen(),
   ));
 }

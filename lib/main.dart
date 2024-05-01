@@ -62,7 +62,7 @@ class MyHomePage extends StatelessWidget {
   void _navigateToReservaReport(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ReservaReport()),
+      MaterialPageRoute(builder: (context) => ReportScreen()),
     );
   }
 }
