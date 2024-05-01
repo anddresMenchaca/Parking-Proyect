@@ -6,6 +6,8 @@ import 'package:parking_project/helpers/extensions.dart';
 import 'package:parking_project/models/auth/auth_service.dart';
 import 'package:parking_project/models/coleccion/collection_field.dart';
 import 'package:parking_project/models/coleccion/collections.dart';
+import 'package:parking_project/pages/admin/accounts_request.dart';
+import 'package:parking_project/pages/admin/navigator_bar_admin.dart';
 import 'package:parking_project/pages/login/type_user.dart';
 import 'package:parking_project/routes/routes.dart';
 import 'package:parking_project/services/temporal.dart';
@@ -267,17 +269,17 @@ class LoginPage extends StatelessWidget {
                                   if (!context.mounted) return;
                                   // ignore: use_build_context_synchronously
                                   ProgressDialog.hide(context);
-                                  context.pushNamedAndRemoveUntil(
-                                    Routes.homeScreenAdmin,
-                                    predicate: (route) => false,
-                                  );
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) =>
-                                  //         const AccountRequestScreen(),
-                                  //   ),
+                                  // context.pushNamedAndRemoveUntil(
+                                  //   Routes.homeScreenAdmin,
+                                  //   predicate: (route) => false,
                                   // );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const MenuAdmin(),
+                                    ),
+                                  );
                                 }
                               } else {
                                 if (!context.mounted) return;

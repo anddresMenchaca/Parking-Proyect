@@ -14,13 +14,12 @@ class AccountRequestScreen extends StatelessWidget {
   const AccountRequestScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
             title: const Text('Solicitudes de cuentas'),
             backgroundColor: const Color.fromARGB(255, 5, 126, 225)),
         body: const RequestListScreen(),
-      ));
+      );
   }
 }
 

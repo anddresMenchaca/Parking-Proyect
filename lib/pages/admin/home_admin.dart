@@ -19,7 +19,7 @@ class HomeAdmin extends StatelessWidget {
                   bottomLeft: Radius.circular(30)),
               child: Container(
                 color: Colors.blue,
-                height: 250,
+              height: 250,
                 child: Center(
                     child: Column(
                   children: [
@@ -38,7 +38,7 @@ class HomeAdmin extends StatelessWidget {
                       height: 100,
                     ),
                     const Text(
-                      'BLUH PARK',
+                      'PROJECT PARK',
                       style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ],
@@ -77,7 +77,7 @@ class HomeAdmin extends StatelessWidget {
                             color: Colors.blue,
                           ),
                           const Text(
-                            'Nueva Reserva',
+                            'Reservas',
                             style: TextStyle(
                               fontSize: 16,
                             ),

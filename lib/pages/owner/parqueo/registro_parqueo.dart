@@ -54,6 +54,18 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
   TextEditingController otroHoraController = TextEditingController();
   TextEditingController otroDiaController = TextEditingController();
 
+  TextEditingController motoAlturaController = TextEditingController();
+  TextEditingController motoAnchoController = TextEditingController();
+  TextEditingController motoLargoController = TextEditingController();
+
+  TextEditingController autoAlturaController = TextEditingController();
+  TextEditingController autoAnchoController = TextEditingController();
+  TextEditingController autoLargoController = TextEditingController();
+
+  TextEditingController otroAlturaController = TextEditingController();
+  TextEditingController otroAnchoController = TextEditingController();
+  TextEditingController otroLargoController = TextEditingController();
+
   bool autoSelected = false;
   bool motoSelected = false;
   bool mixtoSelected = false;
@@ -141,7 +153,7 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    descripcionController.text = 'Auto: 2.5m x 5m, Moto: 1.5m x 2m, Otro: 3m x 6m';
+
     final double width = MediaQuery.of(context).size.width;
     //final double height = MediaQuery.of(context).size.height;
     //final formKey = GlobalKey<FormState>();
@@ -465,8 +477,8 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
                             vertical: 10.0,
                             horizontal: 10.0,
                           ), // Ajusta estos valores según tus necesidades
-                          hintText: 'Auto: 2.5m x 5m, Moto: 1.5m x 2m, Otro: 3m x 6m',
-                          
+                          hintText:
+                              'Descripcion del Parqueo',
                           hintStyle: const TextStyle(
                             fontFamily: 'Urbanist',
                             fontSize: 18,
@@ -820,6 +832,289 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
                       const SizedBox(
                         height: 20,
                       ),
+
+                      const Text(
+                        "Dimensión vehículos",
+                        style: TextStyle(
+                          fontFamily: 'Urbanist',
+                          fontSize: 20,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      // Tarifas para autos
+                      const Padding(
+                        padding: EdgeInsets.only(top: 20, left: 10),
+                        child: Text(
+                          'Autos',
+                          style: TextStyle(
+                            fontFamily: 'Urbanist',
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: autoAlturaController,
+                              keyboardType: TextInputType.number,
+                              enabled: autoSelected,
+                              // Opción habilitada o deshabilitada según el valor de autoSelected
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                  horizontal: 10.0,
+                                ),
+                                hintText: 'altura',
+                                hintStyle: const TextStyle(
+                                  fontFamily: 'Urbanist',
+                                  fontSize: 18,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xFFE8ECF4),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: TextFormField(
+                              controller: autoAnchoController,
+                              keyboardType: TextInputType.number,
+                              enabled: autoSelected,
+                              // Opción habilitada o deshabilitada según el valor de autoSelected
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                  horizontal: 10.0,
+                                ),
+                                hintText: 'ancho',
+                                hintStyle: const TextStyle(
+                                  fontFamily: 'Urbanist',
+                                  fontSize: 18,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xFFE8ECF4),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: TextFormField(
+                              controller: autoLargoController,
+                              keyboardType: TextInputType.number,
+                              enabled: autoSelected,
+                              // Opción habilitada o deshabilitada según el valor de autoSelected
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                  horizontal: 10.0,
+                                ),
+                                hintText: 'largo',
+                                hintStyle: const TextStyle(
+                                  fontFamily: 'Urbanist',
+                                  fontSize: 18,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xFFE8ECF4),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      // Tarifas para motos
+                      const Padding(
+                        padding: EdgeInsets.only(top: 20, left: 10),
+                        child: Text(
+                          'Motos',
+                          style: TextStyle(
+                            fontFamily: 'Urbanist',
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: motoAlturaController,
+                              keyboardType: TextInputType.number,
+                              enabled: motoSelected,
+                              // Opción habilitada o deshabilitada según el valor de motoSelected
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                  horizontal: 10.0,
+                                ),
+                                hintText: 'altura',
+                                hintStyle: const TextStyle(
+                                  fontFamily: 'Urbanist',
+                                  fontSize: 18,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xFFE8ECF4),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: TextFormField(
+                              controller: motoAnchoController,
+                              keyboardType: TextInputType.number,
+                              enabled: motoSelected,
+                              // Opción habilitada o deshabilitada según el valor de motoSelected
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                  horizontal: 10.0,
+                                ),
+                                hintText: 'ancho',
+                                hintStyle: const TextStyle(
+                                  fontFamily: 'Urbanist',
+                                  fontSize: 18,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xFFE8ECF4),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: TextFormField(
+                              controller: motoLargoController,
+                              keyboardType: TextInputType.number,
+                              enabled: motoSelected,
+                              // Opción habilitada o deshabilitada según el valor de motoSelected
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                  horizontal: 10.0,
+                                ),
+                                hintText: 'largo',
+                                hintStyle: const TextStyle(
+                                  fontFamily: 'Urbanist',
+                                  fontSize: 18,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xFFE8ECF4),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      // Tarifas para otros vehículos
+                      const Padding(
+                        padding: EdgeInsets.only(top: 20, left: 10),
+                        child: Text(
+                          'Otros',
+                          style: TextStyle(
+                            fontFamily: 'Urbanist',
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: otroAlturaController,
+                              keyboardType: TextInputType.number,
+                              enabled: mixtoSelected,
+                              // Opción habilitada o deshabilitada según el valor de mixtoSelected
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                  horizontal: 10.0,
+                                ),
+                                hintText: 'altura',
+                                hintStyle: const TextStyle(
+                                  fontFamily: 'Urbanist',
+                                  fontSize: 18,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xFFE8ECF4),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: TextFormField(
+                              controller: otroAnchoController,
+                              keyboardType: TextInputType.number,
+                              enabled: mixtoSelected,
+                              // Opción habilitada o deshabilitada según el valor de mixtoSelected
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                  horizontal: 10.0,
+                                ),
+                                hintText: 'ancho',
+                                hintStyle: const TextStyle(
+                                  fontFamily: 'Urbanist',
+                                  fontSize: 18,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xFFE8ECF4),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: TextFormField(
+                              controller: otroLargoController,
+                              keyboardType: TextInputType.number,
+                              enabled: mixtoSelected,
+                              // Opción habilitada o deshabilitada según el valor de mixtoSelected
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                  horizontal: 10.0,
+                                ),
+                                hintText: 'largo',
+                                hintStyle: const TextStyle(
+                                  fontFamily: 'Urbanist',
+                                  fontSize: 18,
+                                ),
+                                filled: true,
+                                fillColor: const Color(0xFFE8ECF4),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
                       const Text(
                         'Horario de Apertura ',
                         style: TextStyle(
@@ -977,11 +1272,31 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
                                 'Dia': double.parse(otroDiaController.text),
                                 'Hora': double.parse(otroHoraController.text)
                               };
+                              Map<String, double> dimensiones = {
+                                'autoAltura':
+                                    double.parse(autoAlturaController.text),
+                                'autoAncho':
+                                    double.parse(autoAnchoController.text),
+                                'autoLargo':
+                                    double.parse(autoLargoController.text),
+                                'motoAltura':
+                                    double.parse(motoAlturaController.text),
+                                'motoAncho':
+                                    double.parse(motoAnchoController.text),
+                                'motoLargo':
+                                    double.parse(motoLargoController.text),
+                                'otroAltura':
+                                    double.parse(otroAlturaController.text),
+                                'otroAncho':
+                                    double.parse(otroAnchoController.text),
+                                'otroLargo':
+                                    double.parse(otroLargoController.text),
+                              };
                               List<dynamic> diasPermitidos = [];
                               if (lunesSelected) diasPermitidos.add('Lunes');
                               if (martesSelected) diasPermitidos.add('Martes');
                               if (miercolesSelected)
-                                diasPermitidos.add('Miercoles');
+diasPermitidos.add('Miercoles');
                               if (juevesSelected) diasPermitidos.add('Jueves');
                               if (viernesSelected)
                                 diasPermitidos.add('Viernes');
@@ -1006,12 +1321,13 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
                                 'horaApertura': selectedDate[0],
                                 'horaCierre': selectedDate[1],
                                 'url': urlPath,
-                                'urlInterna': urlPathInterna, 
+                                'urlInterna': urlPathInterna,
                                 'idDuenio': user!.uid,
                                 'puntaje': 5,
                                 'sumaPuntos': 5,
                                 'cantidadResenia': 1,
                                 'diasApertura': diasPermitidos,
+                                'dimensiones': dimensiones,
                               };
                               await agregarParqueo(datos: data);
                               if (!context.mounted) return;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:parking_project/pages/login/login_screen.dart';
 import 'package:parking_project/routes/app_router.dart';
 import 'package:parking_project/routes/routes.dart';
 import 'firebase_options.dart';
@@ -34,7 +33,7 @@ class MyApp extends StatelessWidget {
           title: 'Login & Signup App',
           theme: ThemeData(
             useMaterial3: true,
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
           ),
           onGenerateRoute: router.generateRoute,
           debugShowCheckedModeBanner: false,
