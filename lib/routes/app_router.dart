@@ -11,6 +11,7 @@ import 'package:parking_project/pages/owner/form/request_type.dart';
 import 'package:parking_project/pages/owner/home_owner_screen.dart';
 import 'package:parking_project/pages/owner/navigation_owner.dart';
 import 'package:parking_project/pages/owner/parqueo/owner_parkings.dart';
+import 'package:parking_project/pages/owner/parqueo/registro_parqueo.dart';
 import 'package:parking_project/pages/owner/plaza/create_place.dart';
 import 'package:parking_project/routes/routes.dart';
 
@@ -27,10 +28,10 @@ class AppRouter {
           );
         }
       
-        case Routes.ownerParkings:
-        return MaterialPageRoute(
-          builder: (_) => const OwnerParkingsScreen(),
-        );
+        // case Routes.ownerParkings:
+        // return MaterialPageRoute(
+        //   builder: (_) => const OwnerParkingsScreen(),
+        // );
 
 
       case Routes.homeScreenAdmin:
@@ -73,6 +74,13 @@ class AppRouter {
           builder: (_) => const TypeUserRequest(),
         );
 
+
+      case Routes.registerParking:
+        return MaterialPageRoute(
+          builder: (_) => const RegistroParqueoScreen(),
+        );
+
+
       case Routes.registerPlaceScreen:
         final arguments = settings.arguments;
         if (arguments is List) {
@@ -88,6 +96,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => LoginPage(),
         );
+
 
 
 

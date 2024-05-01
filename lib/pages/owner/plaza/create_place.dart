@@ -12,7 +12,7 @@ class CreatePlaceScreen extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-              leading: IconButton(
+            leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
@@ -85,8 +85,8 @@ class PlazaListScreenState extends State<PlazaListScreen> {
                     ),
                     subtitle: Text(
                       plaza.estado == 'disponible'
-                          ? 'Disponible'
-                          : 'No disponible',
+                          ? 'Disponible : ${plaza.tipo}'
+                          : 'No disponible : ${plaza.tipo}',
                       style: const TextStyle(fontSize: 16.0),
                     ),
                     trailing: IconButton(
@@ -113,7 +113,9 @@ class PlazaListScreenState extends State<PlazaListScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AgregarPlazaScreen(seccionRef: widget.seccionRef)),
+            MaterialPageRoute(
+                builder: (context) =>
+                    AgregarPlazaScreen(seccionRef: widget.seccionRef)),
           );
         },
         backgroundColor: Colors.blue,
@@ -218,35 +220,6 @@ class AgregarPlazaScreenState extends State<AgregarPlazaScreen> {
               ),
               const SizedBox(height: 20.0),
               const Text(
-                '¿Tiene Cobertura?',
-                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-              ),
-              Row(
-                children: <Widget>[
-                  Radio(
-                    value: true,
-                    groupValue: tieneCobertura,
-                    onChanged: (val) {
-                      setState(() {
-                        tieneCobertura = val!;
-                      });
-                    },
-                  ),
-                  const Text('Sí'),
-                  Radio(
-                    value: false,
-                    groupValue: tieneCobertura,
-                    onChanged: (val) {
-                      setState(() {
-                        tieneCobertura = val!;
-                      });
-                    },
-                  ),
-                  const Text('No'),
-                ],
-              ),
-              const SizedBox(height: 20.0),
-              const Text(
                 'Estado de la plaza',
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
               ),
@@ -300,7 +273,7 @@ class AgregarPlazaScreenState extends State<AgregarPlazaScreen> {
                     'estado': estado, // Estado
                   };
                   // Llama a la función para agregar el documento a la subcolección
-                  await agregarDocumentoASubcoleccion(widget.seccionRef,datos);
+                  await agregarDocumentoASubcoleccion(widget.seccionRef, datos);
                   // Crea una nueva Plaza y devuelve los datos a la pantalla anterior.
                   if (!context.mounted) return;
                   Navigator.pop(context);
@@ -312,7 +285,8 @@ class AgregarPlazaScreenState extends State<AgregarPlazaScreen> {
                 ),
                 child: const Text(
                   'Agregar Plaza',
-                  style: TextStyle(fontSize: 18.0), // Tamaño de fuente del botón
+                  style:
+                      TextStyle(fontSize: 18.0), // Tamaño de fuente del botón
                 ),
               ),
             ],
@@ -369,7 +343,6 @@ class EditarPlazaScreenState extends State<EditarPlazaScreen> {
         setState(() {
           nombreController.text = data['nombre'];
           tipoVehiculo = data['tipoVehiculo'];
-          tieneCobertura = data['tieneCobertura'];
           descripcionController.text = data['descripcion'];
           estado = data['estado'];
         });
@@ -469,35 +442,6 @@ class EditarPlazaScreenState extends State<EditarPlazaScreen> {
               ],
             ),
             const SizedBox(height: 20.0),
-            const Text(
-              '¿Tiene Cobertura?',
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-            ),
-            Row(
-              children: <Widget>[
-                Radio(
-                  value: true,
-                  groupValue: tieneCobertura,
-                  onChanged: (val) {
-                    setState(() {
-                      tieneCobertura = val!;
-                    });
-                  },
-                ),
-                const Text('Sí'),
-                Radio(
-                  value: false,
-                  groupValue: tieneCobertura,
-                  onChanged: (val) {
-                    setState(() {
-                      tieneCobertura = val!;
-                    });
-                  },
-                ),
-                const Text('No'),
-              ],
-            ),
-            const SizedBox(height: 20.0),
             TextFormField(
               controller: descripcionController,
               decoration: const InputDecoration(
@@ -513,14 +457,10 @@ class EditarPlazaScreenState extends State<EditarPlazaScreen> {
                 Map<String, dynamic> datos = {
                   'nombre': nombreController.text,
                   'tipoVehiculo': tipoVehiculo,
-                  'tieneCobertura': tieneCobertura,
                   'descripcion': descripcionController.text,
                   'estado': estado,
                 };
-                await editarPlaza(
-                  widget.idPlaza,
-                  datos
-                );
+                await editarPlaza(widget.idPlaza, datos);
                 Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
@@ -539,7 +479,8 @@ class EditarPlazaScreenState extends State<EditarPlazaScreen> {
   }
 }
 
-Future<void> agregarDocumentoASubcoleccion(DocumentReference seccionRef, Map<String, dynamic> datos) async {
+Future<void> agregarDocumentoASubcoleccion(
+    DocumentReference seccionRef, Map<String, dynamic> datos) async {
   // // Obtén una referencia a la colección principal, en este caso, 'parqueos'
   // CollectionReference parqueos =
   //     FirebaseFirestore.instance.collection('parqueo');
@@ -618,7 +559,7 @@ Stream<QuerySnapshot> obtenerPlazasStream(DocumentReference seccionRef) {
     //   String nombre = data['nombre'];
     // }
 
-    CollectionReference plazasCollection = seccionRef.collection('plaza');
+    CollectionReference plazasCollection = seccionRef.collection('plazas');
     return plazasCollection
         .snapshots(); // Devuelve un Stream que escucha cambios en la colección.
   } catch (e) {

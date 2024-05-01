@@ -7,6 +7,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:parking_project/models/to_use/parking.dart';
+import 'package:parking_project/pages/client/reservation/vistaParqueoDisponible.dart';
 import 'package:parking_project/services/temporal.dart';
 
 class MapClient extends StatefulWidget {
@@ -228,7 +229,7 @@ Widget ItenDetail(
                     child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(description, style: style),
+                    Text(name, style: style),
                     const SizedBox(
                       height: 10,
                     ),
@@ -314,26 +315,13 @@ Widget ItenDetail(
             onPressed: () {
               if (!context.mounted) return;
 
-
-
-
-
-
-
-
-
-
-
-
-
-              
-              // DataReservationSearch dataSearch = DataReservationSearch(idParqueo: idParkingDoc);
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => MostrarDatosParqueoScreen(
-              //       dataSearch: dataSearch)), //),
-              // );
+              DataReservationSearch dataSearch = DataReservationSearch(idParqueo: idParkingDoc);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MostrarDatosParqueoScreen(
+                    dataSearch: dataSearch)), //),
+              );
             },
             color: Colors.blue,
             elevation: 6,

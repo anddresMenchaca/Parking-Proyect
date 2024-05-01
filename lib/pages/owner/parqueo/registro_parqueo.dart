@@ -58,7 +58,17 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
   bool motoSelected = false;
   bool mixtoSelected = false;
 
+  bool lunesSelected = false;
+  bool martesSelected = false;
+  bool miercolesSelected = false;
+  bool juevesSelected = false;
+  bool viernesSelected = false;
+  bool sabadoSelected = false;
+  bool domingoSelected = false;
+
   File? _image;
+
+  File? _imageInterna;
 
   Future<void> _getImageFromGallery() async {
     final ImagePicker imagePicker = ImagePicker();
@@ -67,6 +77,19 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+      } else {
+        log('No image selected.');
+      }
+    });
+  }
+
+  Future<void> _getImageFromGalleryInterna() async {
+    final ImagePicker imagePicker = ImagePicker();
+    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _imageInterna = File(pickedFile.path);
       } else {
         log('No image selected.');
       }
@@ -118,6 +141,7 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    descripcionController.text = 'Auto: 2.5m x 5m, Moto: 1.5m x 2m, Otro: 3m x 6m';
     final double width = MediaQuery.of(context).size.width;
     //final double height = MediaQuery.of(context).size.height;
     //final formKey = GlobalKey<FormState>();
@@ -258,6 +282,74 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
                           ],
                         ),
                       ),
+
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Imagen del parte Interna',
+                        style: TextStyle(
+                          fontFamily: 'Urbanist',
+                          fontSize: 20,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 22,
+                          vertical: 20,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.black87,
+                            width: 1.0,
+                          ),
+                          color: const Color(0xFFE8ECF4),
+                        ),
+                        child: Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            if (_imageInterna != null)
+                              Center(
+                                // Centra la imagen
+                                child: SizedBox(
+                                  width: 250,
+                                  height: 200,
+                                  child: Image.file(
+                                    _imageInterna!,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            if (_imageInterna != null)
+                              IconButton(
+                                onPressed: () => {
+                                  setState(() {
+                                    _imageInterna = null;
+                                  })
+                                },
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Colors.red[600],
+                                ),
+                              ),
+                            if (_imageInterna == null)
+                              InkWell(
+                                onTap: () => _getImageFromGalleryInterna(),
+                                child: const Row(
+                                  children: [
+                                    Icon(
+                                      Icons.photo_library,
+                                    ),
+                                    SizedBox(width: 8),
+                                    Text('Selecciona imagen'),
+                                  ],
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+
                       const SizedBox(height: 20),
                       const Text(
                         "Dirección del Parqueo",
@@ -358,7 +450,7 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
                       ),
                       const SizedBox(height: 20),
                       const Text(
-                        "Descripción del Parqueo",
+                        "Descripción Medidas",
                         style: TextStyle(
                           fontFamily: 'Urbanist',
                           fontSize: 20,
@@ -373,7 +465,8 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
                             vertical: 10.0,
                             horizontal: 10.0,
                           ), // Ajusta estos valores según tus necesidades
-                          hintText: 'Opcional',
+                          hintText: 'Auto: 2.5m x 5m, Moto: 1.5m x 2m, Otro: 3m x 6m',
+                          
                           hintStyle: const TextStyle(
                             fontFamily: 'Urbanist',
                             fontSize: 18,
@@ -386,6 +479,97 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
+
+                      const SizedBox(height: 20),
+                      const Text(
+                        "Dias permitidos",
+                        style: TextStyle(
+                          fontFamily: 'Urbanist',
+                          fontSize: 20,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Checkbox(
+                            value: lunesSelected,
+                            onChanged: (value) {
+                              setState(() {
+                                lunesSelected = value!;
+                              });
+                            },
+                          ),
+                          const Text("Lunes"),
+                          Checkbox(
+                            value: martesSelected,
+                            onChanged: (value) {
+                              setState(() {
+                                martesSelected = value!;
+                              });
+                            },
+                          ),
+                          const Text("Martes"),
+                          Checkbox(
+                            value: miercolesSelected,
+                            onChanged: (value) {
+                              setState(() {
+                                miercolesSelected = value!;
+                              });
+                            },
+                          ),
+                          const Text("Miercoles"),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Checkbox(
+                            value: juevesSelected,
+                            onChanged: (value) {
+                              setState(() {
+                                juevesSelected = value!;
+                              });
+                            },
+                          ),
+                          const Text("Jueves"),
+                          Checkbox(
+                            value: viernesSelected,
+                            onChanged: (value) {
+                              setState(() {
+                                viernesSelected = value!;
+                              });
+                            },
+                          ),
+                          const Text("Viernes"),
+                          Checkbox(
+                            value: sabadoSelected,
+                            onChanged: (value) {
+                              setState(() {
+                                sabadoSelected = value!;
+                              });
+                            },
+                          ),
+                          const Text("Sabado"),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Checkbox(
+                              value: domingoSelected,
+                              onChanged: (value) {
+                                setState(() {
+                                  domingoSelected = value!;
+                                });
+                              },
+                            ),
+                            const Text("Domingo")
+                          ]),
+                      const SizedBox(height: 20),
+
                       const Text(
                         "Vehículos permitidos",
                         style: TextStyle(
@@ -425,31 +609,6 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
                           ),
                           const Text("Otros"),
                         ],
-                      ),
-                      const SizedBox(height: 20),
-                      const Text(
-                        "NIT del Propietario",
-                        style: TextStyle(
-                          fontFamily: 'Urbanist',
-                          fontSize: 20,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      TextFormField(
-                        controller: nitController,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          hintText: 'Ingrese el NIT',
-                          hintStyle: const TextStyle(
-                            fontFamily: 'Urbanist',
-                            fontSize: 18,
-                          ),
-                          filled: true,
-                          fillColor: const Color(0xFFE8ECF4),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
                       ),
                       const SizedBox(height: 20),
                       const Text(
@@ -792,7 +951,12 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
                               'Registrando Parqueo',
                             );
                             String? urlPath = await addImageToFireStorage();
-                            if (urlPath != null || urlPath != '') {
+                            String? urlPathInterna =
+                                await addImageToFireStorageInterna();
+                            if (urlPath != null ||
+                                urlPath != '' ||
+                                urlPathInterna != null ||
+                                urlPathInterna != '') {
                               GeoPoint ubicacion = GeoPoint(lati, long);
                               Map<String, bool> vhp = {
                                 'Autos': autoSelected,
@@ -813,6 +977,18 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
                                 'Dia': double.parse(otroDiaController.text),
                                 'Hora': double.parse(otroHoraController.text)
                               };
+                              List<dynamic> diasPermitidos = [];
+                              if (lunesSelected) diasPermitidos.add('Lunes');
+                              if (martesSelected) diasPermitidos.add('Martes');
+                              if (miercolesSelected)
+                                diasPermitidos.add('Miercoles');
+                              if (juevesSelected) diasPermitidos.add('Jueves');
+                              if (viernesSelected)
+                                diasPermitidos.add('Viernes');
+                              if (sabadoSelected) diasPermitidos.add('Sabado');
+                              if (domingoSelected)
+                                diasPermitidos.add('Domingo');
+
                               //OJO VALIDAR---------------------------------------------
                               final User? user =
                                   FirebaseAuth.instance.currentUser;
@@ -830,7 +1006,12 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
                                 'horaApertura': selectedDate[0],
                                 'horaCierre': selectedDate[1],
                                 'url': urlPath,
-                                'idDuenio': user!.uid
+                                'urlInterna': urlPathInterna, 
+                                'idDuenio': user!.uid,
+                                'puntaje': 5,
+                                'sumaPuntos': 5,
+                                'cantidadResenia': 1,
+                                'diasApertura': diasPermitidos,
                               };
                               await agregarParqueo(datos: data);
                               if (!context.mounted) return;
@@ -896,6 +1077,33 @@ class RegistroParqueoScreenState extends State<RegistroParqueoScreen> {
 
       UploadTask task = storageReference.putFile(
         _image!,
+        metadata, // Establece las opciones de almacenamiento aquí
+      );
+      TaskSnapshot taskSnapshot = await task.whenComplete(() => true);
+
+      if (taskSnapshot.state == TaskState.success) {
+        String imageUrl = await taskSnapshot.ref.getDownloadURL();
+        return imageUrl;
+      } else {
+        return '';
+      }
+    } catch (e) {
+      Toast.show(context, e.toString());
+    }
+    return '';
+  }
+
+  Future<String?> addImageToFireStorageInterna() async {
+    try {
+      String namefile = _imageInterna!.path.split('/').last;
+      final Reference storageReference =
+          FirebaseStorage.instance.ref().child('parqueos').child(namefile);
+
+      final SettableMetadata metadata =
+          SettableMetadata(contentType: 'image/jpeg');
+
+      UploadTask task = storageReference.putFile(
+        _imageInterna!,
         metadata, // Establece las opciones de almacenamiento aquí
       );
       TaskSnapshot taskSnapshot = await task.whenComplete(() => true);

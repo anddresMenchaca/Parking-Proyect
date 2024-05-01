@@ -4,35 +4,26 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parking_project/helpers/extensions.dart';
 import 'package:parking_project/models/to_use/parking.dart';
+import 'package:parking_project/pages/login/register_screen.dart';
+import 'package:parking_project/pages/owner/parqueo/registro_parqueo.dart';
+import 'package:parking_project/pages/owner/plaza/create_place.dart';
 import 'package:parking_project/routes/routes.dart';
 
-class OwnerParkingsScreen extends StatelessWidget {
+
+class ParkingListScreen extends StatefulWidget {
+  const ParkingListScreen({super.key});
   static const routeName = '/enable-parking';
-  const OwnerParkingsScreen({super.key});
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-            title: const Text('Mis parqueos'),
-            backgroundColor: const Color.fromARGB(255, 5, 126, 225)),
-        body: const PlazaListScreen(),
-      ),
-    );
-  }
+  ParkingListScreenState createState() => ParkingListScreenState();
 }
 
-class PlazaListScreen extends StatefulWidget {
-  const PlazaListScreen({super.key});
-
-  @override
-  PlazaListScreenState createState() => PlazaListScreenState();
-}
-
-class PlazaListScreenState extends State<PlazaListScreen> {
+class ParkingListScreenState extends State<ParkingListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+        title: const Text('Mis parqueos'),
+        backgroundColor: const Color.fromARGB(255, 5, 126, 225)),
         body: StreamBuilder(
         stream: getParking(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -73,10 +64,19 @@ class PlazaListScreenState extends State<PlazaListScreen> {
               return InkWell(
                 onTap: () {
 
-                  context.pushNamedAndRemoveUntil(
-                    Routes.registerPlaceScreen,
-                    predicate: (route) => false,
-                    arguments: [parqueo.idParqueo],
+                  // context.pushNamedAndRemoveUntil(
+                  //   Routes.registerPlaceScreen,
+                  //   predicate: (route) => false,
+                  //   arguments: [parqueo.idParqueo],
+                  // );
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                    builder: (context) => CreatePlaceScreen(seccionRef: parqueo.idParqueo,),
+
+                    ),
+
                   );
                   // Implementa aquí la lógica que se realizará al hacer clic en el elemento.
                   // Por ejemplo, puedes abrir una pantalla de detalles de la plaza.
@@ -120,10 +120,15 @@ class PlazaListScreenState extends State<PlazaListScreen> {
       ),
         floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.pushNamedAndRemoveUntil(
-            Routes.registerParking,
-            predicate: (route) => false,
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>const RegistroParqueoScreen()),
           );
+          // context.pushNamedAndRemoveUntil(
+          //   Routes.registerParking,
+          //   predicate: (route) => false,
+          // );
         },
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add),
