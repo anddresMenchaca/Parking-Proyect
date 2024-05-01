@@ -20,8 +20,7 @@ class AccountRequestScreen extends StatelessWidget {
             title: const Text('Solicitudes de cuentas'),
             backgroundColor: const Color.fromARGB(255, 5, 126, 225)),
         body: const RequestListScreen(),
-      ),
-    );
+      ));
   }
 }
 

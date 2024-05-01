@@ -6,6 +6,10 @@ import 'package:parking_project/helpers/extensions.dart';
 import 'package:parking_project/models/auth/auth_service.dart';
 import 'package:parking_project/models/coleccion/collection_field.dart';
 import 'package:parking_project/models/coleccion/collections.dart';
+import 'package:parking_project/pages/admin/accounts_request.dart';
+import 'package:parking_project/pages/client/navigation_bar.dart';
+import 'package:parking_project/pages/login/register_screen.dart';
+import 'package:parking_project/pages/owner/navigation_owner.dart';
 import 'package:parking_project/routes/routes.dart';
 import 'package:parking_project/utilities/progressbar.dart';
 import 'package:parking_project/utilities/toast.dart';
@@ -44,10 +48,17 @@ class TypeUser extends StatelessWidget {
               child: Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    context.pushNamedAndRemoveUntil(
-                      Routes.registerScreen,
-                      predicate: (route) => false,
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const RegisterScreen(userType: 'Cliente'),
+                      ),
                     );
+                    // context.pushNamedAndRemoveUntil(
+                    //   Routes.registerScreen,
+                    //   predicate: (route) => false,
+                    // );
                   },
                   style: ElevatedButton.styleFrom(
                     padding:
@@ -116,31 +127,39 @@ class TypeUser extends StatelessWidget {
                               if(data['tipo']=="Cliente"){
                                 if (!context.mounted) return;
                                 ProgressDialog.hide(context);
-                                context.pushNamedAndRemoveUntil(
-                                  Routes.clientMenuScreen,
-                                  predicate: (route) => false,
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const MenuClient(),
+                                  ),
                                 );
+                                // context.pushNamedAndRemoveUntil(
+                                //   Routes.clientMenuScreen,
+                                //   predicate: (route) => false,
+                                // );
                               }
                               else if (data['tipo']=="Dueño"){
                                   if (!context.mounted) return;
                                   // ignore: use_build_context_synchronously
                                   ProgressDialog.hide(context);
-                                  context.pushNamedAndRemoveUntil(
-                                    Routes.ownerMenuScreen,
-                                    predicate: (route) => false,
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const MenuOwner(),
+                                    ),
                                   );
                               }
                               else if(data['tipo']=="Admin"){
                                   if (!context.mounted) return;
                                   // ignore: use_build_context_synchronously
 
-                                  // ProgressDialog.hide(context);
-                                  // Navigator.push(
-                                  // context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) => const AccountRequestScreen(),
-                                  //   ),
-                                  // );
+                                  ProgressDialog.hide(context);
+                                  Navigator.push(
+                                  context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const AccountRequestScreen(),
+                                    ),
+                                  );
                               }
                             }
                             else{

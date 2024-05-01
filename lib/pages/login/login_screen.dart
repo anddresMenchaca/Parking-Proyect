@@ -6,6 +6,7 @@ import 'package:parking_project/helpers/extensions.dart';
 import 'package:parking_project/models/auth/auth_service.dart';
 import 'package:parking_project/models/coleccion/collection_field.dart';
 import 'package:parking_project/models/coleccion/collections.dart';
+import 'package:parking_project/pages/login/type_user.dart';
 import 'package:parking_project/routes/routes.dart';
 import 'package:parking_project/services/temporal.dart';
 import 'package:parking_project/utilities/progressbar.dart';
@@ -71,7 +72,7 @@ class LoginPage extends StatelessWidget {
 
                 // welcome back, you've been missed!
                 Text(
-                  'Bienvenido a Blueh Park!',
+                  'Bienvenido a Project-Park!',
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontSize: 16,
@@ -259,7 +260,7 @@ class LoginPage extends StatelessWidget {
                                   // ignore: use_build_context_synchronously
                                   ProgressDialog.hide(context);
                                   context.pushNamedAndRemoveUntil(
-                                    Routes.homeScreenOwner,
+                                    Routes.ownerMenuScreen,
                                     predicate: (route) => false,
                                   );
                                 } else if (data['tipo'] == "Admin") {
@@ -345,18 +346,28 @@ class LoginPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      '¿No tiene Cuenta?',
-                      style: TextStyle(color: Colors.grey[700]),
-                    ),
-                    const SizedBox(width: 4),
-                    const Text(
-                      'Registrarse ahora',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
+                  Text(
+                    '¿No tiene Cuenta?',
+                    style: TextStyle(color: Colors.grey[700]),
+                  ),
+                  const SizedBox(width: 4),
+                  GestureDetector(
+                    onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) => const TypeUser(),
                       ),
+                    );
+                    },
+                    child: const Text(
+                    'Registrarse ahora',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
                     ),
+                    ),
+                  ),
                   ],
                 )
               ],

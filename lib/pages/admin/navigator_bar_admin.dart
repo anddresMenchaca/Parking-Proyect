@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:parking_project/pages/admin/accounts_request.dart';
+import 'package:parking_project/pages/admin/home_admin.dart';
 import 'package:parking_project/pages/client/home_client_page.dart';
 import 'package:parking_project/pages/profile.dart';
 
-void main() => runApp(const MenuClient());
-
-class MenuClient extends StatefulWidget {
-  const MenuClient({super.key});
+class MenuAdmin extends StatefulWidget {
+  const MenuAdmin({super.key});
 
   @override
-  State<MenuClient> createState() => _MenuClientState();
+  State<MenuAdmin> createState() => _MenuAdminState();
 }
 
-class _MenuClientState extends State<MenuClient> {
+class _MenuAdminState extends State<MenuAdmin> {
   int selectedIndex = 0;
 
   final List<Widget> pages = <Widget>[
-    const HomeClient(),
+    const HomeAdmin(),
     //const TicketsList(),
-    const Text('ssssssssss'),
+    const AccountRequestScreen(),
     const Text('Notificaciones de reserva'),
     //const ProfilePage(),
     const ProfilePage(),

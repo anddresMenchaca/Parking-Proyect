@@ -264,7 +264,7 @@ Widget itenDetail(
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const OwnerParkingsScreen()), //),
+                              builder: (context) => const ParkingListScreen()), //),
                         );
                         context.pushNamedAndRemoveUntil(
                           Routes.ownerParkings,

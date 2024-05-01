@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parking_project/helpers/extensions.dart';
+import 'package:parking_project/pages/map/map_owner.dart';
+import 'package:parking_project/pages/owner/parqueo/owner_parkings.dart';
 import 'package:parking_project/routes/routes.dart';
 
 class HomeOwner extends StatefulWidget {
@@ -44,7 +46,7 @@ class _HomeOwnerState extends State<HomeOwner> {
                       height: 100,
                     ),
                     const Text(
-                      'BLUH PARK',
+                      'PROJECT PARK',
                       style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ],
@@ -72,10 +74,13 @@ class _HomeOwnerState extends State<HomeOwner> {
                             onPressed: () {
                               //OwnerParkingsScreen
                             if (!context.mounted) return;
-                              context.pushNamedAndRemoveUntil(
-                                Routes.ownerParkings,
-                                predicate: (route) => false,
-                              );
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => const ParkingListScreen()),
+                            );
+
+
                             },
                             iconSize: 50,
                             color: const Color(0xff2e61e6),
@@ -196,10 +201,7 @@ class _HomeOwnerState extends State<HomeOwner> {
               child: GestureDetector(
                 onTap: () {
                   if (!context.mounted) return;
-                    context.pushNamedAndRemoveUntil(
-                      Routes.mapOwnerScreen,
-                      predicate: (route) => false,
-                    );
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const MapOwner()));
                 },
                 child: Card(
                   elevation: 4,
