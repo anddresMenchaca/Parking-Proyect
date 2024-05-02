@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:parking_project/models/to_use/reservation_request.dart';
 import 'package:parking_project/pages/owner/reservation/reservation_data.dart';
 
-
 class ReservasPendientes extends StatelessWidget {
   const ReservasPendientes({super.key});
 
@@ -23,7 +22,7 @@ class ReservasPendientes extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot>(
         stream: getReservasStream(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -40,14 +39,19 @@ class ReservasPendientes extends StatelessWidget {
             //DocumentReference idDocumento = document.reference; // Obtener
 
             return Reserva(
+              nombreCliente: data['cliente']['nombre'],
+              apellidoCliente: data['cliente']['apellidos'],
+              nombreParqueo: data['parqueo']['nombre'],
+              nombrePlaza: data['parqueo']['plaza'],
+
               date: data['fecha'].toDate(),
               dateArrive: data['fechaLlegada'].toDate(),
               dateOut: data['fechaSalida'].toDate(),
-              model: 'vacccccc',
-              plate: '',
+              model: data['vehiculo']['marcaVehiculo'],
+              plate: data['vehiculo']['placaVehiculo'],
               status: data['estado'],
               total: data['total'],
-              typeVehicle: 'no',
+              typeVehicle: data['vehiculo']['tipo'],
               id: document.id,
             );
           }).toList();
@@ -67,12 +71,12 @@ class ReservasPendientes extends StatelessWidget {
                       vertical: 8.0, horizontal: 16.0),
                   child: ListTile(
                     title: Text(
-                      reservaRequest.date.toString(),
+                      '${reservaRequest.nombreParqueo!} - ${reservaRequest.total.toString()} bs',
                       style: const TextStyle(
                           fontSize: 18.0, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
-                      reservaRequest.total.toString(),
+                      ' ${reservaRequest.nombreCliente} ${reservaRequest.apellidoCliente} - ${reservaRequest.nombrePlaza}',
                       style: const TextStyle(fontSize: 16.0),
                     ),
                     trailing: IconButton(

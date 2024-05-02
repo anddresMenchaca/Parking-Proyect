@@ -92,6 +92,8 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
       estadoController.text = dataPlace['estado'];
       urlImage = dataParking['url'];
 
+      //instanciamos el id del Duenio
+      widget.dataSearch.idDuenio = dataParking['idDuenio'];
 
       placaController.text = dataVehicle['placa'];
       marcaController.text = dataVehicle['marca'];
@@ -538,6 +540,7 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                               'colorVehiculo': colorController.text
                             };
                             Map<String, dynamic> parqueo = {
+                              'idDuenio': widget.dataSearch.idDuenio,
                               'nombre': nombreParqueo.text,
                               'plaza': plazaController.text,
                               
@@ -584,7 +587,7 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
 
   Future<void> agregarReserva({required Map<String, dynamic> datos}) async {
     await FirebaseFirestore.instance.collection(Collection.reservas).add(datos);
-    await FirebaseFirestore.instance.collection(Collection.tickets).add(datos);
+    //await FirebaseFirestore.instance.collection(Collection.tickets).add(datos);
     Map<String, dynamic> data = {'estado': 'pendiente'};
     DocumentReference plazaRef = widget.dataSearch.idPlaza!;
     // Utiliza update para modificar campos existentes o set con merge: true para combinar datos nuevos con los existentes

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:parking_project/models/to_use/reservation_request.dart';
 
-
 class ReservaRequestScreen extends StatelessWidget {
   final Reserva reserva;
 
@@ -10,6 +9,8 @@ class ReservaRequestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController totalController = TextEditingController(text: reserva.total.toString());
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Reservas Pendientes'),
@@ -50,9 +51,12 @@ class ReservaRequestScreen extends StatelessWidget {
                 style: const TextStyle(fontSize: 16.0),
               ),
               const SizedBox(height: 8.0),
-              Text(
-                'Total: ${reserva.total}',
-                style: const TextStyle(fontSize: 16.0),
+              TextFormField(
+                controller: totalController,
+                decoration: const InputDecoration(
+                  labelText: 'Total',
+                  border: OutlineInputBorder(),
+                ),
               ),
               const SizedBox(height: 8.0),
               Text(
@@ -69,10 +73,9 @@ class ReservaRequestScreen extends StatelessWidget {
                       //obtener el documento de la coleccion reserva
                       DocumentReference reservaRef = FirebaseFirestore.instance.collection('reserva').doc(id);
                       //actualizar el estado de la reserva
-                      reservaRef.update({'estado': 'activo'});
+                      reservaRef.update({'estado': 'activo', 'total': double.parse(totalController.text)});
 
                       Navigator.pop(context);
-                      
                     },
                     child: const Text('Aceptar'),
                   ),
@@ -83,9 +86,7 @@ class ReservaRequestScreen extends StatelessWidget {
                       DocumentReference reservaRef = FirebaseFirestore.instance.collection('reserva').doc(id);
                       //actualizar el estado de la reserva
                       reservaRef.update({'estado': 'rechazado'});
-
                       Navigator.pop(context);
-
                     },
                     child: const Text('Rechazar'),
                   ),

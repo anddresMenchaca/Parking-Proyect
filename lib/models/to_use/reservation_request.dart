@@ -8,6 +8,12 @@ class Reserva {
   String status;
   double total;
   String typeVehicle;
+  String? nombreCliente;
+  String? nombreParqueo;
+  String? apellidoCliente;
+  String? nombrePlaza;
+  String? idCliente;
+  String? idDuenio;
 
   Reserva({
     required this.id,
@@ -19,5 +25,11 @@ class Reserva {
     required this.status,
     required this.total,
     required this.typeVehicle,
+    this.nombreCliente,
+    this.nombreParqueo,
+    this.apellidoCliente,
+    this.nombrePlaza,
+    this.idCliente,
+    this.idDuenio,
   });
 }

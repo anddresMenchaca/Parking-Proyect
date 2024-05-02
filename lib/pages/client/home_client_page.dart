@@ -38,7 +38,7 @@ class HomeClient extends StatelessWidget {
                       height: 100,
                     ),
                     const Text(
-                      'BLUH PARK',
+                      'PROJECT PARK',
                       style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ],

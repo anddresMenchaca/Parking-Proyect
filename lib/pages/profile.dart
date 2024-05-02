@@ -22,9 +22,9 @@ class ProfilePage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData) {
               final data = snapshot.data!.data() as Map<String, dynamic>;
-              final name = data['nombre'];
-              final lasname = data['apellido'];
-              final email = data['correo'];
+              final name = data['nombre'] ?? 'Admin';
+              final lasname = data['apellido'] ?? '';
+              final email = data['correo'] ?? 'God';
 
               return Scaffold(
                 appBar: AppBar(

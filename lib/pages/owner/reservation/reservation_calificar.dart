@@ -1,24 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:parking_project/models/to_use/reservation_request.dart';
 
-class ReservasActivas extends StatelessWidget {
-  const ReservasActivas({super.key});
+import 'package:flutter/foundation.dart';
+import 'package:parking_project/services/temporal.dart';
+//import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+class ReservasFinalizadas extends StatelessWidget {
+  const ReservasFinalizadas({super.key});
 
   Stream<QuerySnapshot> getReservasStream() {
+
+    //QuerySnapshot parqueos = FirebaseFirestore.instance.collection('parqueo').get() as QuerySnapshot;
+
     return FirebaseFirestore.instance
-        .collection('reserva')
-        .where('estado', isEqualTo: 'activo')
-        .snapshots();
+      .collection('reserva')
+      .where('parqueo.idDuenio', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+      .where('estado', isEqualTo: 'finalizado')
+      .snapshots();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Reservas Activas'),
+        title: const Text('Reservas Finalizadas'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: getReservasStream(),
@@ -44,6 +52,7 @@ class ReservasActivas extends StatelessWidget {
             // Aquí puedes realizar las operaciones necesarias con los datos del vehículo
 
             return Reserva(
+              idCliente: data['cliente']['idCliente'],
               nombreCliente: data['cliente']['nombre'],
               apellidoCliente: data['cliente']['apellidos'],
               nombreParqueo: data['parqueo']['nombre'],
@@ -90,8 +99,8 @@ class ReservasActivas extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                ReservaActivaScreen(reserva: reservaRequest),
+                            builder: (context) => ReservaFinalizadaScreen(
+                                reserva: reservaRequest),
                           ),
                         );
                       },
@@ -106,17 +115,17 @@ class ReservasActivas extends StatelessWidget {
     );
   }
 }
-
-class ReservaActivaScreen extends StatefulWidget {
+class ReservaFinalizadaScreen extends StatefulWidget {
   final Reserva reserva;
 
-  const ReservaActivaScreen({super.key, required this.reserva});
+  const ReservaFinalizadaScreen({super.key, required this.reserva});
 
   @override
-  State<ReservaActivaScreen> createState() => _ReservaActivaScreenState();
+  State<ReservaFinalizadaScreen> createState() =>
+      _ReservaFinalizadaScreenState();
 }
 
-class _ReservaActivaScreenState extends State<ReservaActivaScreen> {
+class _ReservaFinalizadaScreenState extends State<ReservaFinalizadaScreen> {
   TextEditingController nombreParqueo = TextEditingController();
   TextEditingController pisoController = TextEditingController();
   TextEditingController filaController = TextEditingController();
@@ -135,16 +144,28 @@ class _ReservaActivaScreenState extends State<ReservaActivaScreen> {
   String typeVehicle = "";
   String urlImage = "";
 
+  bool calificacionDuenio = true;
+
   @override
   void initState() {
     super.initState();
     getFullData();
   }
 
-  Future<void> getFullData() async {}
+  Future<void> getFullData() async {
+    DocumentSnapshot reservaSnapshot = await FirebaseFirestore.instance
+        .collection('reserva')
+        .doc(widget.reserva.id)
+        .get();
+    Map<String, dynamic> data = reservaSnapshot.data() as Map<String, dynamic>;
+    setState(() {
+      calificacionDuenio = data['calificacionDuenio'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    int number = 0;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Reservas Activas'),
@@ -196,6 +217,61 @@ class _ReservaActivaScreenState extends State<ReservaActivaScreen> {
                 style: const TextStyle(fontSize: 16.0),
               ),
               const SizedBox(height: 16.0),
+              if (!calificacionDuenio)
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RatingBar.builder(
+                        initialRating: 3,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding:
+                            const EdgeInsets.symmetric(horizontal: 4.0),
+                        itemBuilder: (context, _) => const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) async {
+                          if (kDebugMode) {
+                            print(rating);
+                            number = rating.toInt();
+                          }
+                        },
+                      ),
+                      const SizedBox(
+                          height:
+                              20), // Añade un espacio entre la barra de calificación y el botón
+                      ElevatedButton(
+                        onPressed: () async {
+                          // Aquí puedes agregar la lógica para guardar el rating
+                          if (kDebugMode) {
+                            print('Botón presionado');
+
+                            // Obtener y usar el usuario existente
+                            //Usuario usuario = await obtenerUsuario(FirebaseAuth.instance.currentUser!.uid); //Aquien se calificara
+
+                            // Actualizar el puntaje del usuario
+
+                            DocumentReference reservaRef = FirebaseFirestore
+                                .instance
+                                .collection('reserva')
+                                .doc(widget.reserva.id);
+
+                            reservaRef.update({'calificacionDuenio': true});
+                            await updateItem(number, widget.reserva.idCliente!);
+                            if(!context.mounted) return;
+                            Navigator.pop(context);
+                          }
+                        },
+                        child: const Text('Guardar Calificación'),
+                      ),
+                    ],
+                  ),
+                ),
+              const SizedBox(height: 16.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -203,28 +279,14 @@ class _ReservaActivaScreenState extends State<ReservaActivaScreen> {
                     onPressed: () {
                       String id = widget.reserva.id;
                       //obtener el documento de la coleccion reserva
-                      DocumentReference reservaRef = FirebaseFirestore.instance
-                          .collection('reserva')
-                          .doc(id);
-                      //actualizar el estado de la reserva
-                      reservaRef.update({'estado': 'finalizado'});
-
+                      // DocumentReference reservaRef = FirebaseFirestore.instance
+                      //     .collection('reserva')
+                      //     .doc(id);
+                      // //actualizar el estado de la reserva
+                      // reservaRef.update({'estado': 'rechazado'});
                       Navigator.pop(context);
                     },
-                    child: const Text('Finalizar'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      String id = widget.reserva.id;
-                      //obtener el documento de la coleccion reserva
-                      DocumentReference reservaRef = FirebaseFirestore.instance
-                          .collection('reserva')
-                          .doc(id);
-                      //actualizar el estado de la reserva
-                      reservaRef.update({'estado': 'rechazado'});
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Caducar'),
+                    child: const Text('Volver'),
                   ),
                 ],
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parking_project/pages/owner/home_owner_screen.dart';
+import 'package:parking_project/pages/owner/reservation/reservation_calificar.dart';
 import 'package:parking_project/pages/owner/reservation/reservation_request.dart';
 import 'package:parking_project/pages/profile.dart';
 
@@ -15,7 +16,7 @@ class _MenuOwnerState extends State<MenuOwner> {
 
   final List<Widget> pages = <Widget>[
     const HomeOwner(),
-    const Text('Reportes'),
+    const ReservasFinalizadas(),
     const ReservasPendientes(),
     const ProfilePage(),
   ];
