@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:parking_project/prueba.dart';
 import 'firebase_options.dart';
 import 'package:parking_project/reporte_reserva.dart';
+import 'package:parking_project/cards.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,7 +63,7 @@ class MyHomePage extends StatelessWidget {
   void _navigateToReservaReport(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ReportScreen()),
+      MaterialPageRoute(builder: (context) => Cards()),
     );
   }
 }

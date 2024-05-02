@@ -6,8 +6,9 @@ class ReportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reporte'),
+        title: Text('Cantidad total de horas reservadas'),
       ),
+      backgroundColor: Colors.blue, 
       body: FutureBuilder(
         future: FirebaseFirestore.instance.collection('reserva').get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -23,86 +24,34 @@ class ReportScreen extends StatelessWidget {
             );
           }
 
-          final reservas = snapshot.data!.docs;
+          final reservas = snapshot.data!.docs.where((reserva) => reserva['estado'] == 'finalizado').toList();
 
-          // Cálculo de la duración promedio de reserva
-          final duraciones = reservas.map((reserva) {
+          // Mapa para almacenar la duración total de cada cliente
+          Map<String, double> duracionPorCliente = {};
+
+          reservas.forEach((reserva) {
+            final cliente = reserva['cliente']['nombre'];
             final fechaLlegada = reserva['fechaLlegada']?.toDate();
             final fechaSalida = reserva['fechaSalida']?.toDate();
+
             if (fechaLlegada != null && fechaSalida != null) {
-              return fechaSalida.difference(fechaLlegada).inHours;
-            } else {
-              return 0;
+              final duracion = fechaSalida.difference(fechaLlegada).inHours.toDouble(); // Convertir a double
+              duracionPorCliente.update(cliente, (value) => value + duracion, ifAbsent: () => duracion);
             }
-          }).toList();
-
-          final duracionPromedio = duraciones.isEmpty
-              ? 0
-              : duraciones.reduce((a, b) => a + b) / duraciones.length;
-
-          // Cálculo del total gastado por cliente
-          final totalPorCliente = Map<String, double>();
-
-          reservas.forEach((reserva) {
-            final cliente = reserva['cliente']['nombre'];
-            final totalReserva = reserva['total'] ?? 0;
-            totalPorCliente[cliente] = (totalPorCliente[cliente] ?? 0) + totalReserva;
           });
 
-          // Cálculo del promedio de precios
-          final precios = totalPorCliente.values.toList();
-
-          final precioPromedio = precios.isEmpty
-              ? 0
-              : precios.reduce((a, b) => a + b) / precios.length;
-
-          // Cálculo del top cliente con más reservas
-          final clientesReservas = Map<String, int>();
-
-          reservas.forEach((reserva) {
-            final cliente = reserva['cliente']['nombre'];
-            clientesReservas[cliente] =
-                (clientesReservas[cliente] ?? 0) + 1;
-          });
-
-          final topCliente = clientesReservas.entries.reduce((a, b) {
-            return a.value > b.value ? a : b;
-          });
-
-          // Cálculo del top parqueos con más reservas
-          final parqueosReservas = Map<String, int>();
-
-          reservas.forEach((reserva) {
-            final parqueo = reserva['parqueo']['nombre'];
-            parqueosReservas[parqueo] =
-                (parqueosReservas[parqueo] ?? 0) + 1;
-          });
-
-          final topParqueos = parqueosReservas.entries.toList()
-            ..sort((a, b) => b.value.compareTo(a.value));
-
-          return ListView(
-            children: [
-              ListTile(
-                title: Text('Duración promedio de reserva: $duracionPromedio horas'),
-              ),
-              ListTile(
-                title: Text('Promedio de precios: $precioPromedio'),
-              ),
-              ListTile(
-                title: Text('Top Cliente con más reservas: ${topCliente.key}'),
-                subtitle: Text('Cantidad de reservas: ${topCliente.value}'),
-              ),
-              ListTile(
-                title: Text('Top Parqueos con más reservas:'),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: topParqueos.map((entry) {
-                    return Text('${entry.key}: ${entry.value} reservas');
-                  }).toList(),
+          return ListView.builder(
+            itemCount: duracionPorCliente.length,
+            itemBuilder: (context, index) {
+              final cliente = duracionPorCliente.keys.elementAt(index);
+              final duracionTotal = duracionPorCliente[cliente]!.round(); // Redondear a entero
+              return Card(
+                child: ListTile(
+                  title: Text('Cliente: $cliente'),
+                  subtitle: Text('Duración total de reservas: $duracionTotal horas'),
                 ),
-              ),
-            ],
+              );
+            },
           );
         },
       ),
