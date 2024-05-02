@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:parking_project/helpers/extensions.dart';
 import 'package:parking_project/pages/map/map_owner.dart';
 import 'package:parking_project/pages/owner/parqueo/owner_parkings.dart';
 import 'package:parking_project/pages/owner/reservation/reservation_active.dart';
-import 'package:parking_project/routes/routes.dart';
 
 class HomeOwner extends StatefulWidget {
   const HomeOwner({super.key});

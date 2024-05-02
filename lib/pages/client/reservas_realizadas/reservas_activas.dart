@@ -1,11 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:parking_project/models/to_use/reservation_request.dart';
-
-import 'package:flutter/foundation.dart';
-import 'package:parking_project/services/temporal.dart';
 //import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ReservasActivasCliente extends StatelessWidget {
@@ -166,7 +162,7 @@ class _ReservaFinalizadaClienteScreenState extends State<ReservaFinalizadaClient
 
   @override
   Widget build(BuildContext context) {
-    int number = 0;
+    //int number = 0;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Reserva Activa'),
@@ -223,7 +219,7 @@ class _ReservaFinalizadaClienteScreenState extends State<ReservaFinalizadaClient
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      String id = widget.reserva.id;
+                      //String id = widget.reserva.id;
                       Navigator.pop(context);
                     },
                     child: const Text('Volver'),

@@ -10,7 +10,6 @@ import 'package:parking_project/pages/owner/form/request_data.dart';
 import 'package:parking_project/pages/owner/form/request_type.dart';
 import 'package:parking_project/pages/owner/home_owner_screen.dart';
 import 'package:parking_project/pages/owner/navigation_owner.dart';
-import 'package:parking_project/pages/owner/parqueo/owner_parkings.dart';
 import 'package:parking_project/pages/owner/parqueo/registro_parqueo.dart';
 import 'package:parking_project/pages/owner/plaza/create_place.dart';
 import 'package:parking_project/routes/routes.dart';

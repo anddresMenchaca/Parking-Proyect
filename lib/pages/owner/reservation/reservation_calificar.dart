@@ -277,7 +277,7 @@ class _ReservaFinalizadaScreenState extends State<ReservaFinalizadaScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      String id = widget.reserva.id;
+                      //String id = widget.reserva.id;
                       //obtener el documento de la coleccion reserva
                       // DocumentReference reservaRef = FirebaseFirestore.instance
                       //     .collection('reserva')
