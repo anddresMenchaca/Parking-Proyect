@@ -23,10 +23,8 @@ class ReportScreenParkingReserves extends StatelessWidget {
             );
           }
 
-          final reservas = snapshot.data!.docs.where((reserva) => reserva['estado'] == 'terminado').toList();
+          final reservas = snapshot.data!.docs.where((reserva) => reserva['estado'] == 'finalizado').toList();
 
-          
-          
           // Cálculo del top parqueos con más reservas
           final parqueosReservas = Map<String, int>();
 
@@ -36,22 +34,25 @@ class ReportScreenParkingReserves extends StatelessWidget {
                 (parqueosReservas[parqueo] ?? 0) + 1;
           });
 
-          final topParqueos = parqueosReservas.entries.toList()
+          // Ordenar la lista de parqueos por cantidad de reservas
+          final sortedParqueosReservas = parqueosReservas.entries.toList()
             ..sort((a, b) => b.value.compareTo(a.value));
 
-          return ListView(
-            children: [
-              
-              ListTile(
-                title: Text('Top Parqueos con más reservas:'),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: topParqueos.map((entry) {
-                    return Text('${entry.key}: ${entry.value} reservas');
-                  }).toList(),
+          return ListView.builder(
+            itemCount: sortedParqueosReservas.length > 2
+                ? 2
+                : sortedParqueosReservas.length,
+            itemBuilder: (context, index) {
+              final parqueo = sortedParqueosReservas[index];
+              return Card(
+                child: ListTile(
+                  title: Text(
+                      'Parqueo ${index + 1}: ${parqueo.key}'),
+                  subtitle: Text(
+                      'Cantidad de reservas: ${parqueo.value}'),
                 ),
-              ),
-            ],
+              );
+            },
           );
         },
       ),

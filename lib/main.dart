@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart'; 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:parking_project/prueba.dart';
+import 'package:parking_project/test.dart';
 import 'firebase_options.dart';
-import 'package:parking_project/reporte_reserva.dart';
+
 import 'package:parking_project/cards.dart';
 
 void main() async {

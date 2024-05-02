@@ -4,7 +4,7 @@ import 'package:parking_project/calculo_total.dart';
 import 'package:parking_project/reporte_reserva.dart';
 import 'package:parking_project/top_clientes_reservas.dart';
 import 'package:parking_project/top_parqueos_reservas.dart';
-
+import 'package:parking_project/top.dart';
 
 void main() {
   runApp(Cards());
@@ -20,7 +20,7 @@ class Cards extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               AnimatedGlassCard(
-                text: 'Duración promedio de reserva',
+                text: 'Duración promedio de reserva de clientes',
                 onTap: () {
                   Navigator.push(
                     context,
@@ -29,11 +29,20 @@ class Cards extends StatelessWidget {
                 },
               ),
               AnimatedGlassCard(
-                text: 'Promedio precios',
+                text: 'Promedio de Pago',
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ReportScreenTotal()),
+                    MaterialPageRoute(builder: (context) =>ReportScreenTotal()),
+                  );
+                },
+              ),
+              AnimatedGlassCard(
+                text: 'Ranking',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>MyApp()),
                   );
                 },
               ),

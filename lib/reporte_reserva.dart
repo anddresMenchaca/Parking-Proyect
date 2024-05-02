@@ -39,7 +39,6 @@ class ReportScreen extends StatelessWidget {
               duracionPorCliente.update(cliente, (value) => value + duracion, ifAbsent: () => duracion);
             }
           });
-
           return ListView.builder(
             itemCount: duracionPorCliente.length,
             itemBuilder: (context, index) {
@@ -49,7 +48,9 @@ class ReportScreen extends StatelessWidget {
                 child: ListTile(
                   title: Text('Cliente: $cliente'),
                   subtitle: Text('Duración total de reservas: $duracionTotal horas'),
+                  
                 ),
+                
               );
             },
           );

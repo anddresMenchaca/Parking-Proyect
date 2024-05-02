@@ -6,7 +6,7 @@ class ReportScreenRankingReserves extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ranking de clientes con mas reservas'),
+        title: Text('Ranking de clientes con más reservas'),
       ),
       body: FutureBuilder(
         future: FirebaseFirestore.instance.collection('reserva').get(),
@@ -23,10 +23,7 @@ class ReportScreenRankingReserves extends StatelessWidget {
             );
           }
 
-          final reservas = snapshot.data!.docs.where((reserva) => reserva['estado'] == 'terminado').toList();
-
-          
-          
+          final reservas = snapshot.data!.docs.where((reserva) => reserva['estado'] == 'finalizado').toList();
 
           // Cálculo del top cliente con más reservas
           final clientesReservas = Map<String, int>();
@@ -37,20 +34,25 @@ class ReportScreenRankingReserves extends StatelessWidget {
                 (clientesReservas[cliente] ?? 0) + 1;
           });
 
-          final topCliente = clientesReservas.entries.reduce((a, b) {
-            return a.value > b.value ? a : b;
-          });
+          // Ordenar la lista de clientes por cantidad de reservas
+          final sortedClientesReservas = clientesReservas.entries.toList()
+            ..sort((a, b) => b.value.compareTo(a.value));
 
-          
-          return ListView(
-            children: [
-              
-              ListTile(
-                title: Text('Top Cliente con más reservas: ${topCliente.key}'),
-                subtitle: Text('Cantidad de reservas: ${topCliente.value}'),
-              ),
-              
-            ],
+          return ListView.builder(
+            itemCount: sortedClientesReservas.length > 20
+                ? 20
+                : sortedClientesReservas.length,
+            itemBuilder: (context, index) {
+              final cliente = sortedClientesReservas[index];
+              return Card(
+                child: ListTile(
+                  title: Text(
+                      'Cliente No ${index + 1}: ${cliente.key}'),
+                  subtitle: Text(
+                      'Cantidad de reservas: ${cliente.value}'),
+                ),
+              );
+            },
           );
         },
       ),

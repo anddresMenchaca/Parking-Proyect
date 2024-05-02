@@ -24,7 +24,7 @@ class ReportScreenTotal extends StatelessWidget {
           }
 
           final reservas = snapshot.data!.docs
-              .where((reserva) => reserva['estado'] == 'terminado')
+              .where((reserva) => reserva['estado'] == 'finalizado')
               .toList();
 
           // Cálculo del total gastado por cliente
@@ -37,19 +37,17 @@ class ReportScreenTotal extends StatelessWidget {
                 (totalPorCliente[cliente] ?? 0) + totalReserva;
           });
 
-          // Cálculo del promedio de precios
-          final precios = totalPorCliente.values.toList();
-
-          final precioPromedio = precios.isEmpty
-              ? 0
-              : precios.reduce((a, b) => a + b) / precios.length;
-
           return ListView(
-            children: [
-              ListTile(
-                title: Text('Promedio de precios: $precioPromedio'),
-              ),
-            ],
+            children: totalPorCliente.entries
+                .map(
+                  (entry) => Card(
+                    child: ListTile(
+                      title: Text('Cliente: ${entry.key}'),
+                      subtitle: Text('Total gastado: ${entry.value}'),
+                    ),
+                  ),
+                )
+                .toList(),
           );
         },
       ),
