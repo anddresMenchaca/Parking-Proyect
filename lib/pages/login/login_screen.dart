@@ -353,7 +353,7 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 50),
+                const SizedBox(height: 30),
 
                 // not a member? register now
                 Row(
@@ -382,7 +382,7 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   ],
-                )
+                ),
               ],
             ),
           ),

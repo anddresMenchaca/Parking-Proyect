@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:parking_project/main.dart';
 import 'package:parking_project/pages/client/Vehicle/home_page.dart';
-import 'package:parking_project/pages/client/calificarReserva/reservation_ended.dart';
+import 'package:parking_project/pages/client/chatCliente/home_client.dart';
+import 'package:parking_project/pages/client/reservas_realizadas/reservation_ended.dart';
 import 'package:parking_project/pages/client/home_client_page.dart';
 import 'package:parking_project/pages/profile.dart';
-
-void main() => runApp(const MenuClient());
 
 class MenuClient extends StatefulWidget {
   const MenuClient({super.key});
@@ -22,6 +20,7 @@ class _MenuClientState extends State<MenuClient> {
     //const TicketsList(),
     const ReservasFinalizadasCliente(),
     const VehicleScreen(),
+    const HomeChatClientScreen(),
     //const ProfilePage(),
     const ProfilePage(),
   ];
@@ -41,6 +40,7 @@ class _MenuClientState extends State<MenuClient> {
                   icon: Icon(Icons.calendar_today_rounded), label: 'Reservas Finalizadas'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.car_crash), label: 'Vehiculos'),
+              BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
               BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil')
             ]),
       );

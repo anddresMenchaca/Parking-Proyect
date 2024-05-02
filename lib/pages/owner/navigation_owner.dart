@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parking_project/pages/owner/chat_owner/home_page.dart';
 import 'package:parking_project/pages/owner/home_owner_screen.dart';
 import 'package:parking_project/pages/owner/reservation/reservation_calificar.dart';
 import 'package:parking_project/pages/owner/reservation/reservation_request.dart';
@@ -18,6 +19,7 @@ class _MenuOwnerState extends State<MenuOwner> {
     const HomeOwner(),
     const ReservasFinalizadas(),
     const ReservasPendientes(),
+    const HomeChatOwnerScreen(),
     const ProfilePage(),
   ];
 
@@ -34,7 +36,8 @@ class _MenuOwnerState extends State<MenuOwner> {
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
             BottomNavigationBarItem(icon: Icon(Icons.report), label: 'Reportes'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.notifications), label: 'Resevas'),
+                icon: Icon(Icons.date_range), label: 'Resevas'),
+            BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil')
           ]),
     );

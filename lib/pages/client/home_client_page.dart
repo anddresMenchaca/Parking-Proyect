@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:parking_project/pages/client/reservas_realizadas/reservas_activas.dart';
+import 'package:parking_project/pages/client/reservation/nearby_parking.dart';
 import 'package:parking_project/pages/map/map_client.dart';
 
 class HomeClient extends StatelessWidget {
@@ -11,7 +13,7 @@ class HomeClient extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Container(
-              height: 1200,
+              height: 500,
             ),
             ClipRRect(
               borderRadius: const BorderRadius.only(
@@ -23,7 +25,7 @@ class HomeClient extends StatelessWidget {
                 child: Center(
                     child: Column(
                   children: [
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     const Text(
                       'Bienvenido User',
                       style: TextStyle(
@@ -64,10 +66,10 @@ class HomeClient extends StatelessWidget {
                           IconButton(
                             icon: const Icon(Icons.file_open_rounded),
                             onPressed: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => const SelectParkingScreen()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const SelectParkingScreen()));
                               
                               
                               //SelectParkingScreen
@@ -88,10 +90,14 @@ class HomeClient extends StatelessWidget {
                         IconButton(
                           icon: const Icon(Icons.assignment_rounded),
                           onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ReservasActivasCliente()));
                             // Agrega la lógica para el botón 'Reservas solicitadas' aquí
                           },
                           iconSize: 50,
-                          color: Colors.blue,
+                          color: const Color.fromARGB(255, 4, 47, 82),
                         ),
                         const Text(
                           'Reservas Activas',

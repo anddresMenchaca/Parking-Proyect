@@ -20,7 +20,7 @@ class _HomeOwnerState extends State<HomeOwner> {
         child: Stack(
           children: <Widget>[
             Container(
-              height: 1250,
+              height: 850,
             ),
             ClipRRect(
               borderRadius: const BorderRadius.only(
@@ -32,9 +32,9 @@ class _HomeOwnerState extends State<HomeOwner> {
                 child: Center(
                     child: Column(
                   children: [
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     const Text(
-                      'Bienvenido User',
+                      'Bienvenido Socio',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,

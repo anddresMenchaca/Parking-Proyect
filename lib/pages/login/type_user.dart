@@ -62,11 +62,11 @@ class TypeUser extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     padding:
-                        const EdgeInsets.all(16), // Ajusta el tamaño del botón
-                    backgroundColor: Colors.blue, // Color de fondo del botón
+                        const EdgeInsets.all(18), // Ajusta el tamaño del botón
+                    backgroundColor: const Color.fromARGB(255, 8, 62, 106), // Color de fondo del botón
                     shape: RoundedRectangleBorder(
                       borderRadius:
-                          BorderRadius.circular(15.0), // Borde redondeado
+                          BorderRadius.circular(16.0), // Borde redondeado
                     ),
                   ),
                   child: const Column(
@@ -212,7 +212,7 @@ class TypeUser extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     padding:
                         const EdgeInsets.all(16), // Ajusta el tamaño del botón
-                    backgroundColor: Colors.blue, // Color de fondo del botón
+                    backgroundColor: const Color.fromARGB(255, 8, 62, 106), // Color de fondo del botón
                     shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(15.0), // Borde redondeado

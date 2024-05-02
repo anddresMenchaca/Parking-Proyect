@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parking_project/models/to_use/reservation_request.dart';
 import 'package:parking_project/pages/owner/reservation/reservation_data.dart';
@@ -8,9 +9,10 @@ class ReservasPendientes extends StatelessWidget {
 
   Stream<QuerySnapshot> getReservasStream() {
     return FirebaseFirestore.instance
-        .collection('reserva')
-        .where('estado', isEqualTo: 'pendiente')
-        .snapshots();
+      .collection('reserva')
+      .where('parqueo.idDuenio', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+      .where('estado', isEqualTo: 'pendiente')
+      .snapshots();
   }
 
   @override

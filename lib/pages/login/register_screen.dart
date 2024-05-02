@@ -35,20 +35,13 @@ class RegisterScreenState extends State<RegisterScreen> {
     //final double width = MediaQuery.of(context).size.width;
     //final double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: const Color.fromARGB(255, 8, 68, 171),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsetsDirectional.all(20),
-              child: IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(
-                  Icons.arrow_back,
-                  size: 40,
-                ),
-              ),
+            const Padding(
+              padding: EdgeInsetsDirectional.all(20),
             ),
             Center(
               child: ClipRRect(
@@ -275,7 +268,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                               horizontal: 40,
                               vertical: 16), // Ajusta el tamaño del botón
                           backgroundColor:
-                              Colors.blue, // Color de fondo del botón
+                              const Color.fromARGB(255, 25, 47, 65), // Color de fondo del botón
                         ),
                         child: const Text(
                           'Registrarse', // Texto del botón
