@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:parking_project/models/to_use/parking.dart';
+import 'package:parking_project/models/to_use/vehicle.dart';
 import 'package:parking_project/pages/client/reservation/enable_place.dart';
+import 'package:parking_project/services/temporal.dart';
 import 'package:parking_project/utilities/toast.dart';
 
 class ParkingSpaces extends StatefulWidget {
@@ -27,7 +29,7 @@ class _ParkingSpacesState extends State<ParkingSpaces> {
   List<double> tarifaMoto = [0.0, 0.0];
   List<double> tarifaOtro = [0.0, 0.0];
   bool radioValue = false;
-  String typeVehicle = "jeje";
+  String typeVehicle = "";
   String? url;
   String direccion = '';
   String nombreParqueo = '...';
@@ -41,6 +43,15 @@ class _ParkingSpacesState extends State<ParkingSpaces> {
 
   List<DateTime?> selectedDate = [null, null];
   List<TimeOfDay?> selectedTime = [null, null];
+
+//Para las dimenciones----------------------------------------------------------------------
+  Map<String, dynamic> dimensiones = {};
+  List<VehicleData> options = [];
+  String? _selectedVehicle ;
+  bool valiAuto = false;
+  int tipomensaje = 1;
+  //--------------------------------------------------------------------------------------------------
+
   @override
   void initState() {
     super.initState();
@@ -94,6 +105,26 @@ class _ParkingSpacesState extends State<ParkingSpaces> {
         nombreParqueo = data['nombre'];
         startDate = data['horaApertura'].toDate();
         endDate = data['horaCierre'].toDate();
+
+        //reccuperar las dimenciones para poder comparar
+
+         //-----------------------------------------------------------------------
+         dimensiones['autoAltura'] = data['dimensiones']['autoAltura'];
+         dimensiones['autoAncho'] = data['dimensiones']['autoAncho'];
+         dimensiones['autoLargo'] = data['dimensiones']['autoLargo'];
+
+
+
+         dimensiones['motoAltura'] = data['dimensiones']['motoAltura'];
+         dimensiones['motoAncho'] = data['dimensiones']['motoAncho'];
+         dimensiones['motoLargo'] = data['dimensiones']['motoLargo'];
+
+
+          dimensiones['otroAltura'] = data['dimensiones']['otroAltura'];
+          dimensiones['otroAncho'] = data['dimensiones']['otroAncho'];
+          dimensiones['otroLargo'] = data['dimensiones']['otroLargo'];
+          //------------------------------------------------------------------------------------
+        //
       });
     } catch (e) {
       if (!context.mounted) return;
@@ -112,7 +143,7 @@ class _ParkingSpacesState extends State<ParkingSpaces> {
     int horas = diferencia.inHours - (dias * 24);
     int minutos = diferencia.inMinutes - (dias * 24 * 60) - (horas * 60);
     double total = 0.0;
-    if (typeVehicle == 'Automóvil') {
+    if (typeVehicle == 'Automovil') {
       total = dias * tarifaAutomovil[1] +
           horas * tarifaAutomovil[0] +
           (tarifaAutomovil[0] * minutos / 60) +
@@ -393,25 +424,35 @@ class _ParkingSpacesState extends State<ParkingSpaces> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   const Text(
-                    'Vehículo  /- IMPLEMENTAR VEHICULOS DEL CLIENTE-/',
+
+
+                    'Seleccione su Vehículo',
+
+
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                   Row(
                     children: [
                       Row(
                         children: <Widget>[
                           Radio(
-                            value: 'Automóvil',
+                            value: 'Automovil',
                             groupValue: typeVehicle,
                             onChanged: (val) {
                               setState(() {
+                                //------------------------------
                                 updatePrice();
-
                                 typeVehicle = val!;
+                                updateList(typeVehicle);
+                                valiAuto = false;
+                                tipomensaje = 1;
+                                //--------------------------------
                               });
                             },
                           ),
@@ -425,14 +466,22 @@ class _ParkingSpacesState extends State<ParkingSpaces> {
                             groupValue: typeVehicle,
                             onChanged: (value) {
                               setState(() {
+                                //--------------------------------
                                 typeVehicle = value!;
                                 updatePrice();
+                                updateList(typeVehicle);
+                                valiAuto = false;
+                                tipomensaje = 1;
+                                //---------------------------------
                               });
                             },
                           ),
                           const Text('Moto'),
                         ],
                       ),
+
+
+
                       Row(
                         children: <Widget>[
                           Radio(
@@ -440,8 +489,13 @@ class _ParkingSpacesState extends State<ParkingSpaces> {
                             groupValue: typeVehicle,
                             onChanged: (value) {
                               setState(() {
+                                //---------------------------------------
                                 typeVehicle = value!;
                                 updatePrice();
+                                updateList(typeVehicle);
+                                valiAuto = false;
+                                tipomensaje = 1;
+                                //--------------------------------------------
                               });
                             },
                           ),
@@ -450,9 +504,105 @@ class _ParkingSpacesState extends State<ParkingSpaces> {
                       ),
                     ],
                   ),
+                
+
+
+
+
+
+
+
+
+///--------------------------------------------------------------------------------------------------------
+                 Column(
+                      children: [
+                      const Text(
+                          'Vehículos Disponibles',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(height: 10), // Espacio entre el título y el contenido
+                        options.isEmpty
+                            ? const Text('No hay vehículos disponibles')
+                            : Column(
+                                children: options.map((vehicle) {
+                                  return RadioListTile<String>(
+                                    title: Text("Placa: ${vehicle.placa} - Tipo: ${vehicle.tipo}"),
+                                    value: vehicle.id,
+                                    groupValue: _selectedVehicle,
+                                    onChanged: (String? value) async {
+                                      setState(() {
+                                        _selectedVehicle = value;                                    
+                                      });
+                                         // Verifica las dimensiones del vehículo seleccionado
+                                        bool isValid = await verificarDim(value!);
+
+                                        if (isValid) {
+                                          tipomensaje = 2; // Verdadero
+                                        } else {
+                                          tipomensaje = 3; // Falso
+                                        }
+                                        
+                                         // Actualiza el estado nuevamente con el resultado de la verificación
+                                        setState(() {
+                                          valiAuto = isValid;
+                                        });
+                                    },
+                                  );
+                                }).toList(),
+                              ),
+                      ],
+                    ),
+
+
+                    Column(
+                            children: [
+                              // Aquí se mostrará este Text si el booleano es verdadero
+                              if (tipomensaje == 1)
+                                 const  Text(
+                                  '',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              
+
+                              if (tipomensaje == 2)
+                                const Text(
+                                  'Su vehículo cumple perfectamente con las dimensiones requeridas para el tipo de vehículo seleccionado.',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                     backgroundColor: Color.fromRGBO(9, 180, 29, 0.949) 
+                                  ),
+                                ),
+
+
+                                if (tipomensaje == 3)
+                                const Text(
+                                  'Su vehículo no cumple con las dimensiones requeridas para el tipo de vehículo seleccionado.',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    backgroundColor: Color.fromRGBO(221, 35, 2, 0.951)
+                                  ),
+                                ),
+                            ],
+                          )
+
+
+    //-------------------------------------------------------------------------------------------------------------            
+
                 ],
               ),
             ),
+
+
+
+
             const SizedBox(height: 20),
             Container(
               padding: const EdgeInsets.all(10),
@@ -664,43 +814,100 @@ class _ParkingSpacesState extends State<ParkingSpaces> {
               ),
             ),
             const SizedBox(height: 30),
-            Center(
-              child: ElevatedButton(
+
+
+          //-------------------------------------------------------------------------------------------
+           ElevatedButton(
                 style: ButtonStyle(
-                  padding: const MaterialStatePropertyAll(EdgeInsets.only(
-                      left: 80, right: 80, top: 20, bottom: 20)),
-                  backgroundColor: MaterialStatePropertyAll(Colors.red[500]),
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    const EdgeInsets.only(left: 80, right: 80, top: 20, bottom: 20),
+                  ),
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    valiAuto ? Colors.red[500]! : Colors.grey, // cambia el color del botón según el estado del booleano
+                  ),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          10.0), // Ajusta el radio para redondear las esquinas
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
                 ),
-                child: const Text(
-                  ' Buscar',
-                  style: TextStyle(fontSize: 20),
-                ),
-                onPressed: () async {
-                  DataReservationSearch dataSearch = DataReservationSearch(
-                      idParqueo: widget.dataSearch.idParqueo,
-                      fechaInicio: Timestamp.fromDate(selectedDate[0]!),
-                      fechaFin: Timestamp.fromDate(selectedDate[1]!),
-                      tipoVehiculo: typeVehicle,
-                      total: getTotal());
-                  //SelectSpaceScreen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            SelectSpaceScreen(dataSearch: dataSearch)), //),
+
+             
+                onPressed: valiAuto
+                    ? () async {
+                        // código para ejecutar cuando el botón está habilitado
+                        DataReservationSearch dataSearch = DataReservationSearch(
+                          idParqueo: widget.dataSearch.idParqueo,
+                          fechaInicio: Timestamp.fromDate(selectedDate[0]!),
+                          fechaFin: Timestamp.fromDate(selectedDate[1]!),
+                          tipoVehiculo: typeVehicle,
+                          total: getTotal(),
+                          idVehiculo: _selectedVehicle,
+                        );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SelectSpaceScreen(dataSearch: dataSearch),
+                          ),
+                        );
+                      }                     
+                    : null,
+
+                      child: const Text(
+                          'Buscar',
+                          style: TextStyle(fontSize: 20),
+                        ), // establece null cuando el botón está deshabilitado
+                      ),
+
+                        ],
+                      ),
+                    ),
                   );
-                },
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+                }
+                //-------------------------------------------------------------------------------------------
+
+
+
+//-------------------------------------------------------------------------------------------------------------
+ Future<bool> verificarDim(String vehicle) async {
+  VehicleData? data = await getVehicleDataById(vehicle);
+  if (data != null) {
+    typeVehicle = data.tipo;
+    double alto = data.alto;
+    double ancho = data.ancho;
+    double largo = data.largo;
+
+    if (data.tipo == "Automovil") {
+      return alto < dimensiones['autoAltura'] &&
+          ancho < dimensiones['autoAncho'] &&
+          largo < dimensiones['autoLargo'];
+    } else if (data.tipo == "Moto") {
+      return alto < dimensiones['motoAltura'] &&
+          ancho < dimensiones['motoAncho'] &&
+          largo < dimensiones['motoLargo'];
+    } else {
+      return alto < dimensiones['otroAltura'] &&
+          ancho < dimensiones['otroAncho'] &&
+          largo < dimensiones['otroLargo'];
+    }
+  } else {
+    return false;
   }
 }
+
+
+  void updateList(String tipovalor) {
+  // Llamar a getFilteredVehicles con el tipo de vehículo seleccionado
+  getFilteredVehicles(tipovalor).then((filteredVehicles) {
+    setState(() {
+      // Actualizar la lista de opciones con los vehículos filtrados
+      options = filteredVehicles;
+    });
+  });
+}
+//------------------------------------------------------------------------------------------------------------
+
+}
+
+
+

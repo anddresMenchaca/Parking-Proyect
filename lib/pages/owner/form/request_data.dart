@@ -369,7 +369,10 @@ Future<void> registerUser(UserData userData, BuildContext context) async {
       UsersCollection.correo: userData.correoElectronico,
       UsersCollection.telefono: userData.telefono,
       UsersCollection.tipo: userData.typeUser,
-      UsersCollection.estado: 'habilitado'
+      UsersCollection.estado: 'habilitado',
+      'cantidadResenias':1,
+      'puntaje':5,
+      'sumaPuntos':5
     });
   } catch (error) {
     // Handle any registration errors here

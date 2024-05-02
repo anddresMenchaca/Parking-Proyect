@@ -53,6 +53,7 @@ class Parqueo {
 }
 
 class DataReservationSearch {
+  String? idVehiculo;
   DocumentReference idParqueo;
   String? parqueo;
   String? plaza;
@@ -69,7 +70,8 @@ class DataReservationSearch {
       this.fechaFin,
       this.fechaInicio,
       this.total,
-      this.idPlaza});
+      this.idPlaza,
+      this.idVehiculo});
 }
 
 class ParkingReservation {

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:intl/intl.dart';
 import 'package:parking_project/models/coleccion/collection_field.dart';
@@ -31,11 +32,16 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
   TextEditingController fechaInicioController = TextEditingController();
   TextEditingController fechaFinController = TextEditingController();
 
+  TextEditingController totalController = TextEditingController();
+
   DateTime? reservationDateIn, reservationDateOut;
   bool radioValue = false;
   List<bool> checkboxValues = [false, false, false];
   String typeVehicle = "";
   String urlImage = "";
+
+
+
   @override
   void initState() {
     super.initState();
@@ -56,20 +62,16 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
       /*DocumentSnapshot<Map<String, dynamic>> parqueoDoc =
           await widget.dataSearch.idParqueo.get()
               as DocumentSnapshot<Map<String, dynamic>>;*/
+      DocumentSnapshot vehiculoDoc = await FirebaseFirestore.instance
+          .collection(Collection.vehiculo)
+          .doc(widget.dataSearch.idVehiculo)
+          .get();
+      Map<String, dynamic> dataVehicle = vehiculoDoc.data() as Map<String, dynamic>;
+
 
       DocumentSnapshot plazaDoc = await widget.dataSearch.idPlaza!.get();
 
       Map<String, dynamic> dataPlace = plazaDoc.data() as Map<String, dynamic>;
-
-      DocumentSnapshot filaDoc =
-          await widget.dataSearch.idPlaza!.parent.parent!.get();
-
-      Map<String, dynamic> dataFila = filaDoc.data() as Map<String, dynamic>;
-
-      DocumentSnapshot pisoDoc =
-          await widget.dataSearch.idPlaza!.parent.parent!.parent.parent!.get();
-
-      Map<String, dynamic> dataPiso = pisoDoc.data() as Map<String, dynamic>;
 
       DocumentSnapshot parkingDoc = await widget.dataSearch.idParqueo.get();
 
@@ -78,8 +80,6 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
 
       nombreParqueo.text = dataParking['nombre'];
 
-      pisoController.text = dataPiso['nombre'];
-      filaController.text = dataFila['nombre'];
       plazaController.text = widget.dataSearch.plaza!;
       typeVehicle = widget.dataSearch.tipoVehiculo!;
       if (widget.dataSearch.tipoVehiculo == "Moto") {
@@ -91,9 +91,12 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
       }
       estadoController.text = dataPlace['estado'];
       urlImage = dataParking['url'];
-      // placaController.text = dataReserve['vehiculo']['placa'];
-      // marcaController.text = dataReserve['vehiculo']['marca'];
-      // colorController.text = dataReserve['vehiculo']['color'];
+
+
+      placaController.text = dataVehicle['placa'];
+      marcaController.text = dataVehicle['marca'];
+      colorController.text = dataVehicle['color'];
+      totalController.text = widget.dataSearch.total.toString();
       // modeloController.text = dataReserve['vehiculo']['modelo'];
       // radioValue = widget.dataSearch.tieneCobertura!;
       Timestamp timestampDateOut = widget.dataSearch.fechaFin!;
@@ -200,57 +203,9 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                             Padding(
                               padding: const EdgeInsets.all(10),
                               child: Row(
-                                children: [
-                                  Expanded(
+                                children: [Expanded(
                                     child: Row(
-                                      children: [
-                                        const Text("Piso: "),
-                                        Expanded(
-                                          child: TextField(
-                                            readOnly: true,
-                                            controller: pisoController,
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Urbanist',
-                                            ),
-                                            decoration: const InputDecoration(
-                                              contentPadding: EdgeInsets.zero,
-                                              border: InputBorder.none,
-                                              focusedBorder: InputBorder.none,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Row(
-                                      children: [
-                                        const Text("Fila: "),
-                                        Expanded(
-                                          child: TextField(
-                                            readOnly: true,
-                                            controller: filaController,
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Urbanist',
-                                            ),
-                                            decoration: const InputDecoration(
-                                              contentPadding: EdgeInsets.zero,
-                                              border: InputBorder.none,
-                                              focusedBorder: InputBorder.none,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         const Text("Plaza: "),
                                         Expanded(
@@ -427,26 +382,13 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                                     ),
                                   ),
                                 ),
-                                const Text(
-                                  'Modelo: ',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: TextField(
-                                    controller: modeloController,
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
                               ],
                             ),
                           ],
                         ),
                       ),
+
+
                       const SizedBox(height: 20),
                       Container(
                         alignment: Alignment.centerLeft,
@@ -458,49 +400,33 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Cobertura',
-                              style: TextStyle(
-                                fontSize: 16.0,
+                            const Text('Total a pagar',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                            const SizedBox(height: 25),
+                            TextField(
+                              readOnly: true,
+                              controller: totalController,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 15,
                                 fontWeight: FontWeight.bold,
+                                fontFamily: 'Urbanist',
+                              ),
+                              decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.zero,
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
                               ),
                             ),
-                            const SizedBox(height: 10),
-                            Row(
-                              children: [
-                                IgnorePointer(
-                                  ignoring: true,
-                                  child: Row(
-                                    children: <Widget>[
-                                      Radio<bool>(
-                                        value: true,
-                                        groupValue: radioValue,
-                                        onChanged:
-                                            null, // Establece onChanged a null para deshabilitar la interacción
-                                      ),
-                                      const Text('Sí'),
-                                    ],
-                                  ),
-                                ),
-                                IgnorePointer(
-                                  ignoring: true,
-                                  child: Row(
-                                    children: <Widget>[
-                                      Radio<bool>(
-                                        value: false,
-                                        groupValue: radioValue,
-                                        onChanged: null,
-                                        // Establece onChanged a null para deshabilitar la interacción
-                                      ),
-                                      const Text('No'),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            )
                           ],
                         ),
                       ),
+                      
+
+
+
+
                       const SizedBox(height: 20),
                       Container(
                         alignment: Alignment.centerLeft,
@@ -600,6 +526,7 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                                 userDoc.data() as Map<String, dynamic>;
 
                             Map<String, dynamic> cliente = {
+                              'idCliente': user.uid,
                               'nombre': userData[UsersCollection.nombre],
                               'apellidos': userData[UsersCollection.apellido],
                               'telefono': userData[UsersCollection.telefono],
@@ -608,29 +535,31 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                               'tipo': typeVehicle,
                               'placaVehiculo': placaController.text,
                               'marcaVehiculo': marcaController.text,
-                              'colorVehiculo': colorController.text,
-                              'modeloVehiculo': modeloController.text,
+                              'colorVehiculo': colorController.text
                             };
                             Map<String, dynamic> parqueo = {
                               'nombre': nombreParqueo.text,
-                              'piso': pisoController.text,
-                              'fila': filaController.text,
-                              'cuentaCobertura': true
+                              'plaza': plazaController.text,
+                              
                             };
 
                             Map<String, dynamic> data = {
                               'idParqueo': widget.dataSearch.idParqueo,
                               'idPlaza': widget.dataSearch.idPlaza,
-                              'idVehiculo':'ID-VEHICULO-1',
-
+                              'idVehiculo':widget.dataSearch.idVehiculo,
+                              'idCliente': user.uid,
+                              
                               'cliente': cliente,
                               'vehiculo': vehiculo,
                               'parqueo': parqueo,
-                              'estado': 'activo',
+
+                              'estado': 'pendiente',
                               'fechaLlegada': widget.dataSearch.fechaInicio,
                               'fechaSalida': widget.dataSearch.fechaFin,
                               'fecha': DateTime.now(),
                               'total': widget.dataSearch.total,
+                              'calificacionDuenio': false,
+                              'calificacionCliente': false,
                             };
                             agregarReserva(datos: data);
                             if (!context.mounted) return;
@@ -656,16 +585,9 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
   Future<void> agregarReserva({required Map<String, dynamic> datos}) async {
     await FirebaseFirestore.instance.collection(Collection.reservas).add(datos);
     await FirebaseFirestore.instance.collection(Collection.tickets).add(datos);
-    Map<String, dynamic> data = {'estado': 'noDisponible'};
+    Map<String, dynamic> data = {'estado': 'pendiente'};
     DocumentReference plazaRef = widget.dataSearch.idPlaza!;
     // Utiliza update para modificar campos existentes o set con merge: true para combinar datos nuevos con los existentes
     await plazaRef.update(data);
   }
 }
-
-/*
-
-
-
-
- */

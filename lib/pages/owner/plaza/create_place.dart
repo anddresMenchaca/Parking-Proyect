@@ -197,7 +197,7 @@ class AgregarPlazaScreenState extends State<AgregarPlazaScreen> {
                   ),
                   const Text('Moto'),
                   Radio(
-                    value: 'Automóvil',
+                    value: 'Automovil',
                     groupValue: tipoVehiculo,
                     onChanged: (val) {
                       setState(() {
@@ -391,7 +391,7 @@ class EditarPlazaScreenState extends State<EditarPlazaScreen> {
                 ),
                 const Text('Moto'),
                 Radio(
-                  value: 'Automóvil',
+                  value: 'Automovil',
                   groupValue: tipoVehiculo,
                   onChanged: (val) {
                     setState(() {

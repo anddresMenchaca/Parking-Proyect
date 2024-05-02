@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parking_project/pages/owner/home_owner_screen.dart';
+import 'package:parking_project/pages/owner/reservation/reservation_request.dart';
 import 'package:parking_project/pages/profile.dart';
 
 class MenuOwner extends StatefulWidget {
@@ -15,7 +16,7 @@ class _MenuOwnerState extends State<MenuOwner> {
   final List<Widget> pages = <Widget>[
     const HomeOwner(),
     const Text('Reportes'),
-    const Text('Notificaciones'),
+    const ReservasPendientes(),
     const ProfilePage(),
   ];
 
@@ -30,9 +31,9 @@ class _MenuOwnerState extends State<MenuOwner> {
           currentIndex: selectedIndex,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
-            BottomNavigationBarItem(icon: Icon(Icons.report), label: 'Reortes'),
+            BottomNavigationBarItem(icon: Icon(Icons.report), label: 'Reportes'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.notifications), label: 'Notificaciones'),
+                icon: Icon(Icons.notifications), label: 'Resevas'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil')
           ]),
     );

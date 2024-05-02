@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 class VehicleData {
   final String placa;

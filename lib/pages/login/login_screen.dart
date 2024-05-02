@@ -8,7 +8,9 @@ import 'package:parking_project/models/coleccion/collection_field.dart';
 import 'package:parking_project/models/coleccion/collections.dart';
 import 'package:parking_project/pages/admin/accounts_request.dart';
 import 'package:parking_project/pages/admin/navigator_bar_admin.dart';
+import 'package:parking_project/pages/client/navigation_bar.dart';
 import 'package:parking_project/pages/login/type_user.dart';
+import 'package:parking_project/pages/owner/navigation_owner.dart';
 import 'package:parking_project/routes/routes.dart';
 import 'package:parking_project/services/temporal.dart';
 import 'package:parking_project/utilities/progressbar.dart';
@@ -137,16 +139,23 @@ class LoginPage extends StatelessWidget {
                       ProgressDialog.hide(context);
                       // Autenticación exitosa, puedes navegar a la siguiente pantalla
                       if (user['tipo'] == "Cliente") {
-                        context.pushNamedAndRemoveUntil(
-                          Routes.clientMenuScreen,
-                          predicate: (route) => false,
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MenuClient(),
+                          ),
                         );
                       } else if (user['tipo'] == "Dueño") {
-                        context.pushNamedAndRemoveUntil(
-                          Routes.homeScreenOwner,
-                          predicate: (route) => false,
+                        
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MenuOwner(),
+                          ),
                         );
-                      } else if (user['tipo'] == "Admin") {}
+                      } else if (user['tipo'] == "Admin") {
+
+                      }
                     } else {
                       if (!context.mounted) return;
                       ProgressDialog.hide(context);
@@ -261,9 +270,11 @@ class LoginPage extends StatelessWidget {
                                   if (!context.mounted) return;
                                   // ignore: use_build_context_synchronously
                                   ProgressDialog.hide(context);
-                                  context.pushNamedAndRemoveUntil(
-                                    Routes.ownerMenuScreen,
-                                    predicate: (route) => false,
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const MenuOwner(),
+                                    ),
                                   );
                                 } else if (data['tipo'] == "Admin") {
                                   if (!context.mounted) return;

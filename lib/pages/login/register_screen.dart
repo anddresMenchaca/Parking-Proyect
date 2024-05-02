@@ -150,7 +150,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText: 'Correo Electrónico',
-                          hintText: 'correo@example.com',
+                          hintText: 'correo@gmail.com',
                           filled: true,
                           fillColor: const Color(0xFFE8ECF4),
                           border: OutlineInputBorder(
@@ -243,7 +243,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                       ElevatedButton(
                         onPressed: () async {
                           if(widget.userType == 'Cliente'){
-
+                            
                           }
                           else if(widget.userType == 'Dueño'){
 

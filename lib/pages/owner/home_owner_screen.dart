@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parking_project/helpers/extensions.dart';
 import 'package:parking_project/pages/map/map_owner.dart';
 import 'package:parking_project/pages/owner/parqueo/owner_parkings.dart';
+import 'package:parking_project/pages/owner/reservation/reservation_active.dart';
 import 'package:parking_project/routes/routes.dart';
 
 class HomeOwner extends StatefulWidget {
@@ -98,6 +99,10 @@ class _HomeOwnerState extends State<HomeOwner> {
                           icon: const Icon(Icons.confirmation_number),
                           onPressed: () {
                             // Agrega la lógica para el botón 'Reservas solicitadas' aquí
+
+
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => const ReservasActivas()));
                           },
                           iconSize: 50,
                           color: const Color(0xff2e61e6),

@@ -172,3 +172,52 @@ Future<void> deleteVehicle(String vehicleId) async {
 
 
 
+//-------------------------------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------------------------------
+Future<List<VehicleData>> getFilteredVehicles(String vehicleType) async {
+List<VehicleData> vehicles = [];
+
+  try {
+
+    String idUser = "";
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user != null) 
+  {   
+     idUser = user.uid;   
+    print('UID del usuario autenticado: $idUser'); 
+  } else {   
+      print('No hay usuario autenticado'); 
+  }
+
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('vehiculo')
+        .where('idDuenio', isEqualTo: idUser)
+        .where('tipo', isEqualTo: vehicleType)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+
+      querySnapshot.docs.forEach((DocumentSnapshot doc) {
+
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+        vehicles.add(VehicleData(
+        color: data[VehicleCollection.color],
+        marca: data[VehicleCollection.marca],
+        placa: data[VehicleCollection.placa],
+        tipo: data[VehicleCollection.tipo],
+        alto: (data[VehicleCollection.alto] as num).toDouble(),
+        ancho: (data[VehicleCollection.ancho] as num).toDouble(),
+        largo: (data[VehicleCollection.largo] as num).toDouble(),
+        idCliente: data[VehicleCollection.idCliente],
+        //Id para el documneto
+        id: doc.id,
+        ));
+      });
+    }
+  } catch (error) {
+    print('Error al obtener los vehículos: $error');
+  }
+  return vehicles;
+}

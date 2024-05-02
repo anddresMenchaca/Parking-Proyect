@@ -354,6 +354,9 @@ Future<void> setEnabledRequest(String idRequest) async {
       UsersCollection.correo: datos[UsersCollection.correo],
       UsersCollection.tipo: 'Dueño',
       UsersCollection.estado: 'habilitado',
+      'puntaje':5,
+      'sumaPuntos':5,
+      'cantidadResenias':1
       // Agrega otros campos de datos aquí
     });
     sendEmail(datos[UsersCollection.correo]);
@@ -460,7 +463,7 @@ void sendEmailReject(String mail) async {
       <!DOCTYPE html>
       <html>
       <head>
-          <title>Bluh-Park</title>
+          <title>PrpJect-Park</title>
           <style>
               body {
                   font-family: Arial, sans-serif;
@@ -483,9 +486,9 @@ void sendEmailReject(String mail) async {
           <p>Estimado Usuario.</p>
           <p>Su solicitud de cuenta ha sido Denegada</p>
           <div class="message">
-              <p>La petición que realizo no cuenta con los requerimientos necesarios para formar parte de la comunidad de parqueos Bluh-Park.</p>
+              <p>La petición que realizo no cuenta con los requerimientos necesarios para formar parte de la comunidad de parqueos Project-Park.</p>
           </div>
-          <p>Atte: Equipo de Desarrollo Blu-Park</p>
+          <p>Atte: Equipo de Desarrollo Project-Park</p>
       </body>
       </html>
     """;
