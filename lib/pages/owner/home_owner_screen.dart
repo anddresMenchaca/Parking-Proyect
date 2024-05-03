@@ -18,19 +18,19 @@ class _HomeOwnerState extends State<HomeOwner> {
         child: Stack(
           children: <Widget>[
             Container(
-              height: 850,
+              height: 750,
             ),
             ClipRRect(
               borderRadius: const BorderRadius.only(
                   bottomRight: Radius.circular(30),
                   bottomLeft: Radius.circular(30)),
               child: Container(
-                color: const Color(0xff2e61e6),
-                height: 250,
+                color: const Color.fromARGB(255, 5, 40, 129),
+                height: 280,
                 child: Center(
                     child: Column(
                   children: [
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 30),
                     const Text(
                       'Bienvenido Socio',
                       style: TextStyle(
@@ -53,7 +53,7 @@ class _HomeOwnerState extends State<HomeOwner> {
               ),
             ),
             Positioned(
-              top: 190,
+              top: 210,
               left: 0,
               right: 0,
               child: Card(
@@ -118,87 +118,7 @@ class _HomeOwnerState extends State<HomeOwner> {
               ),
             ),
             Positioned(
-              top: 340,
-              left: 0,
-              right: 0,
-              child: Card(
-                elevation: 4,
-                margin: const EdgeInsets.symmetric(horizontal: 40),
-                child: Container(
-                  height: 125,
-                  padding: const EdgeInsets.all(16),
-                  child: const Column(
-                    children: [
-                      Text(
-                        'Recaudaciones:',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Text('Parqueo :',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              )),
-                          SizedBox(width: 8),
-                          Text(
-                            'Magallanez: 0 Bs',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 480,
-              left: 0,
-              right: 0,
-              child: Card(
-                elevation: 4,
-                margin: const EdgeInsets.symmetric(horizontal: 40),
-                child: Container(
-                  height: 125,
-                  padding: const EdgeInsets.all(16),
-                  child: const Column(
-                    children: [
-                      Text(
-                        'Calificaciones',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Text('Parqueo :',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              )),
-                          SizedBox(width: 8),
-                          Text(
-                            'Magallanez: 4.4 ★',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 640,
+              top: 360,
               left: 0,
               right: 0,
               child: GestureDetector(

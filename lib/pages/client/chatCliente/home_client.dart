@@ -45,7 +45,7 @@ class _HomeChatClientScreenState extends State<HomeChatClientScreen> {
 
      Widget _buildUserList(){
     return StreamBuilder(
-      stream: _chatService.getOwners(), 
+      stream: _chatService.getReservationsAndOwners(), 
       builder: (context, snapshot){
         //error
         if(snapshot.hasError){

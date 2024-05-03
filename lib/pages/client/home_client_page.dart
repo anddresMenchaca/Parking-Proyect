@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parking_project/pages/client/reservas_realizadas/reservas_activas.dart';
+import 'package:parking_project/pages/client/reservas_realizadas/reservas_pendientes.dart';
 import 'package:parking_project/pages/client/reservation/nearby_parking.dart';
 import 'package:parking_project/pages/map/map_client.dart';
 
@@ -13,14 +14,14 @@ class HomeClient extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Container(
-              height: 500,
+              height: 700,
             ),
             ClipRRect(
               borderRadius: const BorderRadius.only(
                   bottomRight: Radius.circular(30),
                   bottomLeft: Radius.circular(30)),
               child: Container(
-                color: Colors.blue,
+                color: const Color.fromARGB(255, 2, 51, 91),
                 height: 250,
                 child: Center(
                     child: Column(
@@ -76,7 +77,7 @@ class HomeClient extends StatelessWidget {
                               // Agrega la lógica para el botón 'Mis parqueos' aquí
                             },
                             iconSize: 50,
-                            color: Colors.blue,
+                            color: const Color.fromARGB(255, 3, 53, 94),
                           ),
                           const Text(
                             'Nueva Reserva',
@@ -105,9 +106,10 @@ class HomeClient extends StatelessWidget {
                             fontSize: 16,
                           ),
                         )
-                      ]),
+                      ],),
                     ],
-                  ),
+                  )
+                  ,
                 ),
               ),
             ),
@@ -146,6 +148,52 @@ class HomeClient extends StatelessWidget {
                 ),
               ),
             ),
+          
+            Positioned(
+              top: 480,
+              left: 0,
+              right: 0,
+              child: Card(
+                elevation: 4,
+                borderOnForeground: true,
+                margin: const EdgeInsets.symmetric(horizontal: 40),
+                child: Container(
+                  height: 135,
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.file_open_rounded),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const ReservasPendientesCliente()));
+                              //SelectParkingScreen
+                              // Agrega la lógica para el botón 'Mis parqueos' aquí
+                            },
+                            iconSize: 50,
+                            color: const Color.fromARGB(255, 3, 53, 94),
+                          ),
+                          const Text(
+                            'Reservas Pendientes',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          )
+                        ],
+                      ),],
+                  )
+                  ,
+                ),
+              ),
+            ),
+            
+          
+          
           ],
         ),
       ),

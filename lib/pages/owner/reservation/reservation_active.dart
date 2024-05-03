@@ -57,6 +57,7 @@ class ReservasActivas extends StatelessWidget {
               total: data['total'],
               typeVehicle: data['vehiculo']['tipo'],
               id: document.id,
+              idPlaza: data['idPlaza'],
             );
           }).toList();
 
@@ -209,6 +210,10 @@ class _ReservaActivaScreenState extends State<ReservaActivaScreen> {
                       //actualizar el estado de la reserva
                       reservaRef.update({'estado': 'finalizado'});
 
+                      //actualizar el estado de la plaza //No se si falla o no
+                      DocumentReference plazaRef = FirebaseFirestore.instance.doc(widget.reserva.idPlaza!);
+                      plazaRef.update({'estado': 'disponible'});
+
                       Navigator.pop(context);
                     },
                     child: const Text('Finalizar'),
@@ -222,6 +227,10 @@ class _ReservaActivaScreenState extends State<ReservaActivaScreen> {
                           .doc(id);
                       //actualizar el estado de la reserva
                       reservaRef.update({'estado': 'rechazado'});
+
+                      //actualizar el estado de la plaza //No se si falla o no
+                      DocumentReference plazaRef = FirebaseFirestore.instance.doc(widget.reserva.idPlaza!);
+                      plazaRef.update({'estado': 'disponible'});
                       Navigator.pop(context);
                     },
                     child: const Text('Caducar'),

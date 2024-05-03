@@ -30,8 +30,8 @@ class _HomeChatOwnerScreenState extends State<HomeChatOwnerScreen> {
 
           appBar: AppBar(
             title: const Text("Chats"),
-            backgroundColor: Colors.transparent,
-            foregroundColor: Colors.grey,
+            backgroundColor: const Color.fromARGB(0, 7, 37, 209),
+            foregroundColor: Color.fromARGB(255, 59, 59, 59),
             elevation: 0,
           ),
 
@@ -48,7 +48,7 @@ class _HomeChatOwnerScreenState extends State<HomeChatOwnerScreen> {
 
      Widget _buildUserList(){
     return StreamBuilder(
-      stream: _chatService.getClients(), 
+      stream: _chatService.getReservationsAndClients(), 
       builder: (context, snapshot){
         //error
         if(snapshot.hasError){

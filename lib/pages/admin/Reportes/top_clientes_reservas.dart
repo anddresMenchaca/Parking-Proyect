@@ -2,23 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ReportScreenRankingReserves extends StatelessWidget {
+  const ReportScreenRankingReserves({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ranking de clientes con más reservas'),
+        title: const Text('Ranking de clientes con más reservas'),
       ),
       body: FutureBuilder(
         future: FirebaseFirestore.instance.collection('reserva').get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
           if (snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text('Error al cargar los datos'),
             );
           }
@@ -26,13 +28,13 @@ class ReportScreenRankingReserves extends StatelessWidget {
           final reservas = snapshot.data!.docs.where((reserva) => reserva['estado'] == 'finalizado').toList();
 
           // Cálculo del top cliente con más reservas
-          final clientesReservas = Map<String, int>();
+          final clientesReservas = <String, int>{};
 
-          reservas.forEach((reserva) {
+          for (var reserva in reservas) {
             final cliente = reserva['cliente']['nombre'];
             clientesReservas[cliente] =
                 (clientesReservas[cliente] ?? 0) + 1;
-          });
+          }
 
           // Ordenar la lista de clientes por cantidad de reservas
           final sortedClientesReservas = clientesReservas.entries.toList()
@@ -61,7 +63,7 @@ class ReportScreenRankingReserves extends StatelessWidget {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: ReportScreenRankingReserves(),
   ));
 }

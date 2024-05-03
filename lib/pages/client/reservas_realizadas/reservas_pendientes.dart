@@ -8,8 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:parking_project/services/temporal.dart';
 //import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class ReservasFinalizadasCliente extends StatelessWidget {
-  const ReservasFinalizadasCliente({super.key});
+class ReservasPendientesCliente extends StatelessWidget {
+  const ReservasPendientesCliente({super.key});
 
   Stream<QuerySnapshot> getReservasStream() {
 
@@ -67,6 +67,7 @@ class ReservasFinalizadasCliente extends StatelessWidget {
               typeVehicle: data['vehiculo']['tipo'],
               id: document.id,
               idDuenio: data['parqueo']['idDuenio'],
+              idPlaza: data['idPlaza'],
             );
           }).toList();
 
@@ -237,6 +238,10 @@ class _ReservaFinalizadaClienteScreenState extends State<ReservaFinalizadaClient
                           .doc(id);
                       //actualizar el estado de la reserva
                       reservaRef.update({'estado': 'cancelado'});
+
+                      //actualizar el estado de la plaza //No se si falla o no
+                      DocumentReference plazaRef = FirebaseFirestore.instance.doc(widget.reserva.idPlaza!);
+                      plazaRef.update({'estado': 'disponible'});
 
                       Navigator.pop(context);
                     },

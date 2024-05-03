@@ -4,25 +4,9 @@ import 'package:parking_project/firebase_options.dart';
 import 'package:parking_project/services/temporal.dart';
 
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -41,37 +25,50 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Column(
             children: [
-              Text("Dueños"),
-              Switch(
-                value: _mostrarClientes,
-                onChanged: (value) {
-                  setState(() {
-                    _mostrarClientes = value;
-                  });
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Dueños"),
+                  Switch(
+                    value: _mostrarClientes,
+                    onChanged: (value) {
+                      setState(() {
+                        _mostrarClientes = value;
+                      });
+                    },
+                  ),
+                  const Text("Clientes"),
+                ],
               ),
-              Text("Clientes"),
-              SizedBox(width: 20),
-              Text("Mayor a menor"),
-              Switch(
-                value: _ordenAscendente,
-                onChanged: (value) {
-                  setState(() {
-                    _ordenAscendente = value;
-                  });
-                },
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Mayor a menor"),
+                  Switch(
+                    value: _ordenAscendente,
+                    onChanged: (value) {
+                      setState(() {
+                        _ordenAscendente = value;
+                      });
+                    },
+                  ),
+                  const Text("Menor a mayor"),
+                ],
               ),
-              Text("Menor a mayor"),
             ],
           ),
+          
+          
+          
+          
           FutureBuilder(
             future: getPeople(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else if (snapshot.hasData) {
@@ -101,19 +98,19 @@ class _MyHomePageState extends State<MyHomePage> {
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 5,
                           blurRadius: 7,
-                          offset: Offset(0, 3),
+                          offset: const Offset(0, 3),
                         ),
                       ],
                     ),
-                    padding: EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(20.0),
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: DataTable(
                         headingTextStyle:
-                            TextStyle(fontWeight: FontWeight.bold),
+                            const TextStyle(fontWeight: FontWeight.bold),
                         dataRowColor:
                             MaterialStateProperty.all(Colors.transparent),
-                        columns: [
+                        columns: const [
                           DataColumn(
                               label: Text('Nombre',
                                   style: TextStyle(color: Colors.black))),
@@ -132,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 );
               } else {
-                return Center(child: Text('No hay datos'));
+                return const Center(child: Text('No hay datos'));
               }
             },
           ),

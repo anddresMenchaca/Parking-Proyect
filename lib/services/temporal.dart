@@ -242,12 +242,12 @@ Future<List> getPeople() async {
 
   QuerySnapshot quertPeople = await collectionReference.get();
 
-  quertPeople.docs.forEach((element) {
+  for (var element in quertPeople.docs) {
     var data = element.data();
-    if ((data as Map<String, dynamic>)['estado'] == 'habilitado') {
+    if ((data as Map<String, dynamic>)['estado'] == 'habilitado' && (data)['tipo'] != 'Admin'){
       people.add(data);
     }
-  });
+  }
 
 
   return people;

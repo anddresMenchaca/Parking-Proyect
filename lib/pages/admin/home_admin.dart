@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:parking_project/pages/map/map_client.dart';
-
+import 'package:parking_project/pages/admin/Reportes/calculo_total.dart';
+import 'package:parking_project/pages/admin/Reportes/reporte_reserva.dart';
+import 'package:parking_project/pages/admin/Reportes/top.dart';
+import 'package:parking_project/pages/admin/Reportes/top_clientes_reservas.dart';
+import 'package:parking_project/pages/admin/Reportes/top_parqueos_reservas.dart';
 class HomeAdmin extends StatelessWidget {
   const HomeAdmin({super.key});
 
@@ -11,21 +14,21 @@ class HomeAdmin extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Container(
-              height: 1200,
+              height: 700,
             ),
             ClipRRect(
               borderRadius: const BorderRadius.only(
                   bottomRight: Radius.circular(30),
                   bottomLeft: Radius.circular(30)),
               child: Container(
-                color: Colors.blue,
-              height: 250,
+                color: const Color.fromARGB(255, 4, 22, 87),
+              height: 270,
                 child: Center(
                     child: Column(
                   children: [
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 30),
                     const Text(
-                      'Bienvenido ADMINISTRADOR',
+                      'Bienvenido Administrador',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -46,7 +49,144 @@ class HomeAdmin extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 190,
+              top: 210,
+              left: 0,
+              right: 0,
+              child: Card(
+                elevation: 4,
+                borderOnForeground: true,
+                margin: const EdgeInsets.symmetric(horizontal: 40),
+                child: Container(
+                  height: 135,
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.arrow_upward_rounded),
+                            onPressed: () {
+                
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const MyHomePage()),
+                              );
+                            },
+                            iconSize: 50,
+                            color: const Color.fromARGB(255, 4, 66, 124),
+                          ),
+                          const Text(
+                            'Raking',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          )
+                        ],
+                      ),
+                      Column(children: [
+                        IconButton(
+                          icon: const Icon(Icons.assignment_rounded),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ReportScreenTotal()),
+                            );
+                          },
+                          iconSize: 50,
+                          color: const Color.fromARGB(255, 3, 65, 116),
+                        ),
+                        const Text(
+                          'Promedio Gasto',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        )
+                      ]),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+
+            Positioned(
+              top: 360,
+              left: 0,
+              right: 0,
+              child: Card(
+                elevation: 4,
+                borderOnForeground: true,
+                margin: const EdgeInsets.symmetric(horizontal: 40),
+                child: Container(
+                  height: 145,
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.person),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const ReportScreenRankingReserves()),
+                              );
+                            },
+                            iconSize: 50,
+                            color: const Color.fromARGB(255, 4, 66, 124),
+                          ),
+                          const Text(
+                            'Cliente con',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          const Text(
+                            'más reservas',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          )
+                        ],
+                      ),
+                      Column(children: [
+                        IconButton(
+                          icon: const Icon(Icons.garage),
+                          onPressed: () {
+                            // Agrega la lógica para el botón 'Reservas solicitadas' aquí
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ReportScreenParkingReserves()),
+                            );
+                          },
+                          iconSize: 50,
+                          color: const Color.fromARGB(255, 3, 65, 116),
+                        ),
+                        const Text(
+                          'Parqueos con',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        const Text(
+                          'más reservas',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        )
+                      ]),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            
+
+
+            Positioned(
+              top: 530,
               left: 0,
               right: 0,
               child: Card(
@@ -74,7 +214,7 @@ class HomeAdmin extends StatelessWidget {
                               // Agrega la lógica para el botón 'Mis parqueos' aquí
                             },
                             iconSize: 50,
-                            color: Colors.blue,
+                            color: const Color.fromARGB(255, 4, 66, 124),
                           ),
                           const Text(
                             'Reservas',
@@ -86,15 +226,18 @@ class HomeAdmin extends StatelessWidget {
                       ),
                       Column(children: [
                         IconButton(
-                          icon: const Icon(Icons.assignment_rounded),
+                          icon: const Icon(Icons.timelapse),
                           onPressed: () {
-                            // Agrega la lógica para el botón 'Reservas solicitadas' aquí
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ReportScreen()),
+                            );
                           },
                           iconSize: 50,
-                          color: Colors.blue,
+                          color: const Color.fromARGB(255, 3, 65, 116),
                         ),
                         const Text(
-                          'Reporte de Reservas',
+                          'Duracion de Reservas',
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -105,6 +248,10 @@ class HomeAdmin extends StatelessWidget {
                 ),
               ),
             ),
+            
+
+
+
             ],
         ),
       ),

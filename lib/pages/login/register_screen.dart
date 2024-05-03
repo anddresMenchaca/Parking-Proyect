@@ -187,51 +187,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      const Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'Género',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
                       // Usamos un Row para colocar los RadioButtons en fila
-                      Row(
-                        children: [
-                          Flexible(
-                            child: ListTile(
-                              title: const Text('Hombre'),
-                              leading: Radio<int>(
-                                value: 0,
-                                groupValue: selectedGender,
-                                onChanged: (int? value) {
-                                  setState(() {
-                                    selectedGender = value!;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            child: ListTile(
-                              title: const Text('Mujer'),
-                              leading: Radio<int>(
-                                value: 1,
-                                groupValue: selectedGender,
-                                onChanged: (int? value) {
-                                  setState(() {
-                                    selectedGender = value!;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-
                     const SizedBox(height: 30),
                       ElevatedButton(
                         onPressed: () async {

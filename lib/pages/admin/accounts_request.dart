@@ -34,19 +34,6 @@ class RequestListScreenState extends State<RequestListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //ProgressDialog.show(context, 'Cerrando Sesión');
-          AuthService().signOut();
-          //ProgressDialog.hide(context);
-          if (!context.mounted) return;
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => Main()),
-          // );
-        },
-        child: const Icon(Icons.close),
-      ),
       body: StreamBuilder(
         stream: getRequests(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -102,7 +89,7 @@ class RequestListScreenState extends State<RequestListScreen> {
                       style: const TextStyle(fontSize: 16.0),
                     ),
                     trailing: IconButton(
-                      icon: const Icon(Icons.edit, color: Colors.blue),
+                      icon: const Icon(Icons.read_more, color: Colors.blue),
                       onPressed: () {
                         // Implementa aquí la lógica para abrir la pantalla de edición.
                         Navigator.push(
@@ -437,9 +424,9 @@ void sendEmail(String mail) async {
           <p>Estimado Usuario.</p>
           <p>Su cuenta ha sido Aprobada</p>
           <div class="message">
-              <p>Ahora forma parte de la comunidad de parqueos Bluh-Park.</p>
+              <p>Ahora forma parte de la comunidad de parqueos Project-Park.</p>
           </div>
-          <p>Atte: Equipo de Desarrollo Blu-Park</p>
+          <p>Atte: Equipo de Desarrollo Project-Park</p>
       </body>
       </html>
     """;
@@ -463,7 +450,7 @@ void sendEmailReject(String mail) async {
       <!DOCTYPE html>
       <html>
       <head>
-          <title>PrpJect-Park</title>
+          <title>ProJect-Park</title>
           <style>
               body {
                   font-family: Arial, sans-serif;

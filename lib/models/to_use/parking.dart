@@ -31,6 +31,7 @@ class Parqueo {
   final String idDuenio;
   double puntaje;
   List<Plaza> plaza;
+  String? foto;
 
   Parqueo({
     required this.idParqueo,
@@ -48,6 +49,7 @@ class Parqueo {
     required this.horaCierre,
     required this.idDuenio,
     List<Plaza>? plaza, // Parámetro con nombre para filas, opcional
+    this.foto,
   }) : plaza = plaza ??
             <Plaza>[]; // Inicializa con una lista vacía si no se proporciona
 }

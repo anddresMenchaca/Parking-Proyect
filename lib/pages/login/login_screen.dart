@@ -378,6 +378,7 @@ class LoginPage extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.blue,
                       fontWeight: FontWeight.bold,
+                      fontSize: 15
                     ),
                     ),
                   ),

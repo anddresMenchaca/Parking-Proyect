@@ -2,24 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ReportScreen extends StatelessWidget {
+  const ReportScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cantidad total de horas reservadas'),
+        title: const Text('Cantidad total de horas reservadas'),
       ),
       backgroundColor: Colors.blue, 
       body: FutureBuilder(
         future: FirebaseFirestore.instance.collection('reserva').get(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
           if (snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text('Error al cargar los datos'),
             );
           }
@@ -29,7 +31,7 @@ class ReportScreen extends StatelessWidget {
           // Mapa para almacenar la duración total de cada cliente
           Map<String, double> duracionPorCliente = {};
 
-          reservas.forEach((reserva) {
+          for (var reserva in reservas) {
             final cliente = reserva['cliente']['nombre'];
             final fechaLlegada = reserva['fechaLlegada']?.toDate();
             final fechaSalida = reserva['fechaSalida']?.toDate();
@@ -38,7 +40,7 @@ class ReportScreen extends StatelessWidget {
               final duracion = fechaSalida.difference(fechaLlegada).inHours.toDouble(); // Convertir a double
               duracionPorCliente.update(cliente, (value) => value + duracion, ifAbsent: () => duracion);
             }
-          });
+          }
           return ListView.builder(
             itemCount: duracionPorCliente.length,
             itemBuilder: (context, index) {
@@ -60,8 +62,8 @@ class ReportScreen extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: ReportScreen(),
-  ));
-}
+// void main() {
+//   runApp(const MaterialApp(
+//     home: ReportScreen(),
+//   ));
+// }

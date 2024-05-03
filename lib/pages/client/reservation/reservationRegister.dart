@@ -40,8 +40,6 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
   String typeVehicle = "";
   String urlImage = "";
 
-
-
   @override
   void initState() {
     super.initState();
@@ -66,8 +64,8 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
           .collection(Collection.vehiculo)
           .doc(widget.dataSearch.idVehiculo)
           .get();
-      Map<String, dynamic> dataVehicle = vehiculoDoc.data() as Map<String, dynamic>;
-
+      Map<String, dynamic> dataVehicle =
+          vehiculoDoc.data() as Map<String, dynamic>;
 
       DocumentSnapshot plazaDoc = await widget.dataSearch.idPlaza!.get();
 
@@ -77,6 +75,8 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
 
       Map<String, dynamic> dataParking =
           parkingDoc.data() as Map<String, dynamic>;
+
+      urlImage = dataParking['url'];
 
       nombreParqueo.text = dataParking['nombre'];
 
@@ -119,7 +119,7 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red,
+      backgroundColor: Color.fromARGB(255, 2, 4, 114),
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
@@ -144,9 +144,8 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
               child: Center(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(24),
-                  // ignore: prefer_const_constructors
-                  child: Image(
-                    image: const NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpoLyQqZzn-4P0nSNrtXCAAtsQM0LkSgCb6w'),
+                  child: Image.network(
+                    urlImage,
                     width: 215,
                     height: 190,
                     fit: BoxFit.cover,
@@ -177,12 +176,9 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                           fontFamily: 'Urbanist',
                         ),
                         decoration: const InputDecoration(
-                          contentPadding: EdgeInsets
-                              .zero, // Elimina el relleno interior del TextField
-                          border: InputBorder
-                              .none, // Elimina el borde predeterminado
-                          focusedBorder:
-                              InputBorder.none, // Elimina el borde de enfoque
+                          contentPadding: EdgeInsets.zero,
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -205,9 +201,11 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                             Padding(
                               padding: const EdgeInsets.all(10),
                               child: Row(
-                                children: [Expanded(
+                                children: [
+                                  Expanded(
                                     child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         const Text("Plaza: "),
                                         Expanded(
@@ -261,8 +259,7 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 IgnorePointer(
-                                  ignoring:
-                                      true, // Esto hace que los Checkbox sean de solo lectura
+                                  ignoring: true,
                                   child: Radio(
                                     value: typeVehicle,
                                     groupValue: typeVehicle,
@@ -328,8 +325,7 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                             ),
                             const SizedBox(height: 20),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment
-                                  .spaceBetween, // Alinea los elementos a los lados
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
                                   'Placa: ',
@@ -340,9 +336,16 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    readOnly: true,
                                     controller: placaController,
+                                    textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       fontSize: 15,
+                                    ),
+                                    decoration: const InputDecoration(
+                                      contentPadding: EdgeInsets.zero,
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
                                     ),
                                   ),
                                 ),
@@ -355,9 +358,16 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    readOnly: true,
                                     controller: marcaController,
+                                    textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       fontSize: 15,
+                                    ),
+                                    decoration: const InputDecoration(
+                                      contentPadding: EdgeInsets.zero,
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
                                     ),
                                   ),
                                 ),
@@ -365,8 +375,7 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                             ),
                             const SizedBox(height: 15),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment
-                                  .spaceBetween, // Alinea los elementos a los lados
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
                                   'Color: ',
@@ -377,10 +386,15 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                                 ),
                                 Expanded(
                                   child: TextField(
-                                    controller:
-                                        colorController, // Usa tu controlador aquí
+                                    readOnly: true,
+                                    controller: colorController,
                                     style: const TextStyle(
                                       fontSize: 15,
+                                    ),
+                                    decoration: const InputDecoration(
+                                      contentPadding: EdgeInsets.zero,
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
                                     ),
                                   ),
                                 ),
@@ -389,8 +403,6 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                           ],
                         ),
                       ),
-
-
                       const SizedBox(height: 20),
                       Container(
                         alignment: Alignment.centerLeft,
@@ -424,11 +436,6 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                           ],
                         ),
                       ),
-                      
-
-
-
-
                       const SizedBox(height: 20),
                       Container(
                         alignment: Alignment.centerLeft,
@@ -499,16 +506,20 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                       Center(
                         child: ElevatedButton(
                           style: ButtonStyle(
-                            padding: const MaterialStatePropertyAll(
-                                EdgeInsets.only(
-                                    left: 80, right: 80, top: 20, bottom: 20)),
+                            padding: MaterialStateProperty.all(
+                              const EdgeInsets.only(
+                                left: 80,
+                                right: 80,
+                                top: 20,
+                                bottom: 20,
+                              ),
+                            ),
                             backgroundColor:
-                                MaterialStatePropertyAll(Colors.red[500]),
+                                MaterialStateProperty.all(Colors.red[500]),
                             shape: MaterialStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    10.0), // Ajusta el radio para redondear las esquinas
+                                borderRadius: BorderRadius.circular(10.0),
                               ),
                             ),
                           ),
@@ -543,19 +554,16 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                               'idDuenio': widget.dataSearch.idDuenio,
                               'nombre': nombreParqueo.text,
                               'plaza': plazaController.text,
-                              
                             };
 
                             Map<String, dynamic> data = {
                               'idParqueo': widget.dataSearch.idParqueo,
                               'idPlaza': widget.dataSearch.idPlaza,
-                              'idVehiculo':widget.dataSearch.idVehiculo,
+                              'idVehiculo': widget.dataSearch.idVehiculo,
                               'idCliente': user.uid,
-                              
                               'cliente': cliente,
                               'vehiculo': vehiculo,
                               'parqueo': parqueo,
-
                               'estado': 'pendiente',
                               'fechaLlegada': widget.dataSearch.fechaInicio,
                               'fechaSalida': widget.dataSearch.fechaFin,
@@ -569,7 +577,8 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const MenuClient()),
+                                builder: (context) => const MenuClient(),
+                              ),
                             );
                           },
                         ),
@@ -587,10 +596,8 @@ class ReservaRegisterScreenState extends State<ReservaRegisterScreen> {
 
   Future<void> agregarReserva({required Map<String, dynamic> datos}) async {
     await FirebaseFirestore.instance.collection(Collection.reservas).add(datos);
-    //await FirebaseFirestore.instance.collection(Collection.tickets).add(datos);
     Map<String, dynamic> data = {'estado': 'pendiente'};
     DocumentReference plazaRef = widget.dataSearch.idPlaza!;
-    // Utiliza update para modificar campos existentes o set con merge: true para combinar datos nuevos con los existentes
     await plazaRef.update(data);
   }
 }

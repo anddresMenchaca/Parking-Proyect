@@ -22,6 +22,73 @@ Stream<List<Map<String,dynamic>>> getOwners() {
     });
 }
 
+
+Stream<List<Map<String, dynamic>>> getReservationsAndOwners() {
+  String currentUserUid = FirebaseAuth.instance.currentUser!.uid;
+
+  return FirebaseFirestore.instance
+      .collection('reserva')
+      .where('idCliente', isEqualTo: currentUserUid)
+      .where('estado', isEqualTo: 'pendiente')
+      .snapshots()
+      .asyncMap((reservationSnapshot) async {
+        Set<String> ownerIds = <String>{}; // Conjunto para almacenar los IDs de los dueños
+        List<Map<String, dynamic>> ownersData = [];
+
+        for (var reservationDoc in reservationSnapshot.docs) {
+          String ownerId = reservationDoc.data()['parqueo']['idDuenio'];
+          ownerIds.add(ownerId); // Añadir el ID del dueño al conjunto
+        }
+
+        for (String ownerId in ownerIds) {
+          DocumentSnapshot ownerDoc = await FirebaseFirestore.instance
+              .collection('usuario')
+              .doc(ownerId)
+              .get();
+          if (ownerDoc.exists) {
+            Map<String, dynamic> ownerData = ownerDoc.data() as Map<String, dynamic>;
+            ownerData['uid'] = ownerDoc.id;
+            ownersData.add(ownerData);
+          }
+        }
+        return ownersData;
+      });
+}
+
+Stream<List<Map<String, dynamic>>> getReservationsAndClients() {
+  String currentUserUid = FirebaseAuth.instance.currentUser!.uid;
+
+  return FirebaseFirestore.instance
+      .collection('reserva')
+      .where('parqueo.idDuenio', isEqualTo: currentUserUid)
+      .where('estado', isEqualTo: 'pendiente')
+      .snapshots()
+      .asyncMap((reservationSnapshot) async {
+        Set<String> ownerIds = <String>{}; // Conjunto para almacenar los IDs de los dueños
+        List<Map<String, dynamic>> ownersData = [];
+
+        for (var reservationDoc in reservationSnapshot.docs) {
+          String ownerId = reservationDoc.data()['idCliente'];
+          ownerIds.add(ownerId); // Añadir el ID del dueño al conjunto
+        }
+
+        for (String ownerId in ownerIds) {
+          DocumentSnapshot ownerDoc = await FirebaseFirestore.instance
+              .collection('usuario')
+              .doc(ownerId)
+              .get();
+          if (ownerDoc.exists) {
+            Map<String, dynamic> ownerData = ownerDoc.data() as Map<String, dynamic>;
+            ownerData['uid'] = ownerDoc.id;
+            ownersData.add(ownerData);
+          }
+        }
+        return ownersData;
+      });
+}
+
+
+
 Stream<List<Map<String,dynamic>>> getClients() {
   return FirebaseFirestore.instance
       .collection('usuario')

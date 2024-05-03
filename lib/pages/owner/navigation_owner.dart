@@ -17,8 +17,8 @@ class _MenuOwnerState extends State<MenuOwner> {
 
   final List<Widget> pages = <Widget>[
     const HomeOwner(),
-    const ReservasFinalizadas(),
     const ReservasPendientes(),
+    const ReservasFinalizadas(),
     const HomeChatOwnerScreen(),
     const ProfilePage(),
   ];
@@ -34,9 +34,9 @@ class _MenuOwnerState extends State<MenuOwner> {
           currentIndex: selectedIndex,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
-            BottomNavigationBarItem(icon: Icon(Icons.report), label: 'Reportes'),
+            BottomNavigationBarItem(icon: Icon(Icons.report), label: 'Pendientes'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.date_range), label: 'Resevas'),
+                icon: Icon(Icons.date_range), label: 'Finalizadas'),
             BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil')
           ]),

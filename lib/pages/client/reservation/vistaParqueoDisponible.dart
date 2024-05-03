@@ -146,6 +146,7 @@ class _MostrarDatosParqueoScreenState extends State<MostrarDatosParqueoScreen> {
 
   List<DateTime?> selectedDate = [null, null];
 
+  int puntaje = 2;
   bool? tieneCobertura;
   String? coberturaTexto;
 
@@ -163,6 +164,15 @@ class _MostrarDatosParqueoScreenState extends State<MostrarDatosParqueoScreen> {
 
       if (plazaDoc.exists) {
         Map<String, dynamic> data = plazaDoc.data() as Map<String, dynamic>;
+
+
+        
+        // DocumentSnapshot<Map<String, dynamic>> ownerDoc = FirebaseFirestore.instance
+        //     .collection('usuario')
+        //     .doc(data['idDuenio'])
+        //     .get() as DocumentSnapshot<Map<String, dynamic>>;
+
+        // Map<String, dynamic> owner = ownerDoc.data() as Map<String, dynamic>;
 
         setState(() {
           nombreParqueoController.text = data['nombre'];
@@ -202,6 +212,7 @@ class _MostrarDatosParqueoScreenState extends State<MostrarDatosParqueoScreen> {
           tarifaOtrosControllerDia.text =
               "Dia " + data['tarifaOtro']['Dia'].toString() + ' Bs';
 
+          //puntaje = owner['puntaje'];
           if (tieneCobertura == true) {
             coberturaTexto = "Cuenta con cobertura";
           } else {

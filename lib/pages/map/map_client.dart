@@ -83,7 +83,8 @@ class _MapClientState extends State<MapClient> {
                 horaCierre: data['horaCierre'],
                 idDuenio: data['idDuenio'],
                 puntaje: data['puntaje'].toDouble(),
-                diasApertura: data['diasApertura'],);
+                diasApertura: data['diasApertura'],
+                foto: data['url']);
           }).toList();
 
           return FlutterMap(
@@ -138,7 +139,8 @@ class _MapClientState extends State<MapClient> {
                                   parking.horaCierre,
                                   false,
                                   parking.vehiculosPermitidos,
-                                  context);
+                                  context,
+                                  parking.foto);
                             },
                           );
                         },
@@ -187,173 +189,174 @@ class _MapClientState extends State<MapClient> {
 }
 
 Widget ItenDetail(
-    DocumentReference idParkingDoc,
-    String name,
-    String description,
-    String direccion,
-    Timestamp horaApertura,
-    Timestamp horaCierre,
-    bool tieneCobertura,
-    Map<String, dynamic> vehiculosPermitidos,
-    BuildContext context) {
+  DocumentReference idParkingDoc,
+  String name,
+  String description,
+  String direccion,
+  Timestamp horaApertura,
+  Timestamp horaCierre,
+  bool tieneCobertura,
+  Map<String, dynamic> vehiculosPermitidos,
+  BuildContext context,
+  String? urlImage) {
   const style = TextStyle(fontSize: 16);
   DateFormat formatter = DateFormat('HH:mm');
   return Padding(
-    padding: const EdgeInsets.all(15),
-    child: Card(
-      margin: const EdgeInsets.all(3),
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+  padding: const EdgeInsets.all(15),
+  child: Card(
+    margin: const EdgeInsets.all(3),
+    color: Colors.white,
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      Expanded(
+      child: Row(
         children: [
-          Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                    child: Column(
-                  children: [
-                    Text(name,
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Image.asset(
-                      'assets/paking.jpg',
-                      width: 250,
-                      height: 150,
-                    ),
-                  ],
-                )),
-                Expanded(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(name, style: style),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(description, style: style),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Icon(
-                          Icons.timer,
-                          color: Colors.blueGrey,
-                        ),
-                        Text(
-                          'Hora Apertura: ${formatter.format(horaApertura.toDate())}',
-                          style: style,
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Icon(
-                          Icons.timer_off,
-                          color: Colors.blueGrey,
-                        ),
-                        Text(
-                          //Optener la hora de un timestamp
-                          'Hora Cierrre: ${formatter.format(horaCierre.toDate())}',
-                          style: style,
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Icon(
-                          Icons.paragliding,
-                          color: Colors.blueGrey,
-                        ),
-                        Text(
-                          //Optener la hora de un timestamp
-                          'Cobertura: ${tieneCobertura ? 'SI' : 'NO'}',
-                          style: style,
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text(
-                      'Veiculos Permitidos:',
-                      style: style,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Icon(
-                          Icons.car_crash,
-                          color: Colors.blueGrey,
-                        ),
-                        Icon(Icons.motorcycle, color: Colors.blueGrey),
-                        Icon(Icons.train, color: Colors.blueGrey)
-                      ],
-                    )
-                  ],
-                ))
-              ],
-            ),
+        Expanded(
+          child: Column(
+          children: [
+          Text(name,
+            style: const TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold)),
+          const SizedBox(
+            height: 20,
           ),
-          MaterialButton(
-            padding: EdgeInsets.zero,
-            onPressed: () {
-              if (!context.mounted) return;
-
-              DataReservationSearch dataSearch = DataReservationSearch(idParqueo: idParkingDoc);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MostrarDatosParqueoScreen(
-                    dataSearch: dataSearch)), //),
-              );
-            },
-            color: Colors.blue,
-            elevation: 6,
-            child: const Text(
-              'Reservar',
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          Image.network(
+            urlImage ?? '',
+            width: 220,
+            height: 150,
+          ),
+          ],
+        )),
+        Expanded(
+          child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          Text(name, style: style),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(description, style: style),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+            const Icon(
+              Icons.timer,
+              color: Colors.blueGrey,
             ),
+            Text(
+              'Hora Apertura: ${formatter.format(horaApertura.toDate())}',
+              style: style,
+            )
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+            const Icon(
+              Icons.timer_off,
+              color: Colors.blueGrey,
+            ),
+            Text(
+              //Optener la hora de un timestamp
+              'Hora Cierrre: ${formatter.format(horaCierre.toDate())}',
+              style: style,
+            )
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+            const Icon(
+              Icons.paragliding,
+              color: Colors.blueGrey,
+            ),
+            Text(
+              //Optener la hora de un timestamp
+              'Cobertura: ${tieneCobertura ? 'SI' : 'NO'}',
+              style: style,
+            )
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Text(
+            'Veiculos Permitidos:',
+            style: style,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+            Icon(
+              Icons.car_crash,
+              color: Colors.blueGrey,
+            ),
+            Icon(Icons.motorcycle, color: Colors.blueGrey),
+            Icon(Icons.train, color: Colors.blueGrey)
+            ],
           )
+          ],
+        ))
         ],
       ),
+      ),
+      MaterialButton(
+      padding: EdgeInsets.zero,
+      onPressed: () {
+        if (!context.mounted) return;
+
+        DataReservationSearch dataSearch = DataReservationSearch(idParqueo: idParkingDoc);
+        Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MostrarDatosParqueoScreen(
+          dataSearch: dataSearch)), //),
+        );
+      },
+      color: Colors.blue,
+      elevation: 6,
+      child: const Text(
+        'Reservar',
+        style:
+          TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+      )
+    ],
     ),
+  ),
   );
 }
 
 List<Widget> mostrarVehiculos(Map<String, dynamic> vehiculosPermitidos) {
   const style = TextStyle(fontSize: 16);
   return vehiculosPermitidos.entries.map((veiculo) {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          '${veiculo.key}:',
-          style: style,
-        ),
-        Text(
-          'Veiculos: ${veiculo.value ? 'si' : 'no'}',
-          style: style,
-        ),
-      ],
-    );
+  return Column(
+    children: [
+    const SizedBox(
+      height: 10,
+    ),
+    Text(
+      '${veiculo.key}:',
+      style: style,
+    ),
+    Text(
+      'Veiculos: ${veiculo.value ? 'si' : 'no'}',
+      style: style,
+    ),
+    ],
+  );
   }).toList();
 }

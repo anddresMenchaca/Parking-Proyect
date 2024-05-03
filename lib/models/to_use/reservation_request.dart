@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Reserva {
   String id;
   DateTime date;
@@ -14,6 +16,7 @@ class Reserva {
   String? nombrePlaza;
   String? idCliente;
   String? idDuenio;
+  String? idPlaza;
 
   Reserva({
     required this.id,
@@ -31,5 +34,6 @@ class Reserva {
     this.nombrePlaza,
     this.idCliente,
     this.idDuenio,
+    this.idPlaza,
   });
 }

@@ -6,68 +6,65 @@ import 'package:parking_project/pages/admin/Reportes/top.dart';
 import 'package:parking_project/pages/admin/Reportes/top_clientes_reservas.dart';
 import 'package:parking_project/pages/admin/Reportes/top_parqueos_reservas.dart';
 
-
 class Cards extends StatelessWidget {
   const Cards({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              AnimatedGlassCard(
-                text: 'Duración promedio de reserva de clientes',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ReportScreen()),
-                  );
-                },
-              ),
-              AnimatedGlassCard(
-                text: 'Promedio de Pago',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>ReportScreenTotal()),
-                  );
-                },
-              ),
-              AnimatedGlassCard(
-                text: 'Ranking',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>const MyApp()),
-                  );
-                },
-              ),
-              AnimatedGlassCard(
-                text: 'Top clientes con más reservas',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ReportScreenRankingReserves()),
-                  );
-                },
-              ),
-              AnimatedGlassCard(
-                text: 'Top parqueos con más reservas',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ReportScreenParkingReserves()),
-                  );
-                },
-              ),
-            ],
-          ),
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            AnimatedGlassCard(
+              text: 'Duración promedio de reserva de clientes',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ReportScreen()),
+                );
+              },
+            ),
+            AnimatedGlassCard(
+              text: 'Promedio de Pago',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ReportScreenTotal()),
+                );
+              },
+            ),
+            AnimatedGlassCard(
+              text: 'Ranking',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MyHomePage()),
+                );
+              },
+            ),
+            AnimatedGlassCard(
+              text: 'Top clientes con más reservas',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ReportScreenRankingReserves()),
+                );
+              },
+            ),
+            AnimatedGlassCard(
+              text: 'Top parqueos con más reservas',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ReportScreenParkingReserves()),
+                );
+              },
+            ),
+          ],
         ),
-        backgroundColor: Colors.blueAccent,
       ),
+      backgroundColor: Colors.blueAccent,
     );
   }
 }
@@ -133,7 +130,7 @@ class AnimatedGlassCardState extends State<AnimatedGlassCard>
 class GlassCard extends StatelessWidget {
   final String text;
 
-  const GlassCard({required this.text});
+  const GlassCard({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +142,7 @@ class GlassCard extends StatelessWidget {
           height: 150,
           width: 300,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
+            gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
@@ -163,31 +160,28 @@ class GlassCard extends StatelessWidget {
                 color: Colors.white.withOpacity(0.1),
                 spreadRadius: 5,
                 blurRadius: 7,
-                offset: Offset(0, 3),
+                offset: const Offset(0, 3),
               ),
             ],
           ),
           child: Padding(
-            padding: EdgeInsets.all(24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  text,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    shadows: [
-                      Shadow(
-                        blurRadius: 10,
-                        color: Colors.pinkAccent,
-                        offset: Offset(5, 5),
-                      ),
-                    ],
-                  ),
+            padding: const EdgeInsets.all(24),
+            child: Center(
+              child: Text(
+                text,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  shadows: [
+                    Shadow(
+                      blurRadius: 10,
+                      color: Colors.pinkAccent,
+                      offset: Offset(5, 5),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
@@ -195,5 +189,3 @@ class GlassCard extends StatelessWidget {
     );
   }
 }
-
-

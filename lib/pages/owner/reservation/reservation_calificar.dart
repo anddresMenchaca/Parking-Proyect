@@ -93,7 +93,7 @@ class ReservasFinalizadas extends StatelessWidget {
                       style: const TextStyle(fontSize: 16.0),
                     ),
                     trailing: IconButton(
-                      icon: const Icon(Icons.edit, color: Colors.blue),
+                      icon: const Icon(Icons.read_more, color: Colors.blue),
                       onPressed: () {
                         // Implementa aquí la lógica para abrir la pantalla de edición.
                         Navigator.push(
@@ -168,7 +168,7 @@ class _ReservaFinalizadaScreenState extends State<ReservaFinalizadaScreen> {
     int number = 0;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Reservas Activas'),
+        title: const Text('Reservas Finalizadas'),
       ),
       body: SingleChildScrollView(
         child: Padding(
