@@ -18,7 +18,6 @@ class _MenuAdminState extends State<MenuAdmin> {
     const HomeAdmin(),
     //const TicketsList(),
     const AccountRequestScreen(),
-    const Cards(),
     //const ProfilePage(),
     const ProfilePage(),
   ];
@@ -36,8 +35,6 @@ class _MenuAdminState extends State<MenuAdmin> {
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.people), label: 'Solicitudes'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.book), label: 'Reportes'),
               BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil')
             ]),
       );

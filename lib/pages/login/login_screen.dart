@@ -154,6 +154,12 @@ class LoginPage extends StatelessWidget {
                           ),
                         );
                       } else if (user['tipo'] == "Admin") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MenuAdmin(),
+                          ),
+                        );
 
                       }
                     } else {

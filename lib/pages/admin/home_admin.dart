@@ -4,6 +4,8 @@ import 'package:parking_project/pages/admin/Reportes/reporte_reserva.dart';
 import 'package:parking_project/pages/admin/Reportes/top.dart';
 import 'package:parking_project/pages/admin/Reportes/top_clientes_reservas.dart';
 import 'package:parking_project/pages/admin/Reportes/top_parqueos_reservas.dart';
+import 'package:parking_project/pages/admin/Reportes/top_rechazos_cliente.dart';
+import 'package:parking_project/pages/admin/Reportes/top_rechazos_duenio.dart';
 class HomeAdmin extends StatelessWidget {
   const HomeAdmin({super.key});
 
@@ -14,7 +16,7 @@ class HomeAdmin extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Container(
-              height: 700,
+              height: 900,
             ),
             ClipRRect(
               borderRadius: const BorderRadius.only(
@@ -194,7 +196,7 @@ class HomeAdmin extends StatelessWidget {
                 borderOnForeground: true,
                 margin: const EdgeInsets.symmetric(horizontal: 40),
                 child: Container(
-                  height: 135,
+                  height: 145,
                   padding: const EdgeInsets.all(16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -209,15 +211,22 @@ class HomeAdmin extends StatelessWidget {
                               //     MaterialPageRoute(
                               //         builder: (context) => const SelectParkingScreen()));
                               
-                              
-                              //SelectParkingScreen
-                              // Agrega la lógica para el botón 'Mis parqueos' aquí
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const ReportScreenRejectOwner()),
+                              );
                             },
                             iconSize: 50,
                             color: const Color.fromARGB(255, 4, 66, 124),
                           ),
                           const Text(
-                            'Reservas',
+                            'Rechazos de',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          const Text(
+                            'Dueño',
                             style: TextStyle(
                               fontSize: 16,
                             ),
@@ -226,11 +235,55 @@ class HomeAdmin extends StatelessWidget {
                       ),
                       Column(children: [
                         IconButton(
+                          icon: const Icon(Icons.file_open_rounded),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const ReportScreenRejectClient()),
+                            );
+                          },
+                          iconSize: 50,
+                          color: const Color.fromARGB(255, 3, 65, 116),
+                        ),
+                        const Text(
+                          'Rechazos de',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        const Text(
+                          'Cliente',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        )
+                      ]),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            
+            Positioned(
+              top: 700,
+              left: 0,
+              right: 0,
+              child: Card(
+                elevation: 4,
+                borderOnForeground: true,
+                margin: const EdgeInsets.symmetric(horizontal: 40),
+                child: Container(
+                  height: 135,
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [Column(children: [
+                        IconButton(
                           icon: const Icon(Icons.timelapse),
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => ReportScreen()),
+                              MaterialPageRoute(builder: (context) => const ReportScreen()),
                             );
                           },
                           iconSize: 50,
